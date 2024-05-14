@@ -1,20 +1,44 @@
-const express = require('express');
-const path = require('path');
+// Database imports
+const pgPool = require("./db/pgWrapper");
+const tokenDB = require("./db/tokenDB")(pgPool);
+const userDB = require("./db/userDB")(pgPool);
 
+// OAuth imports
+const oAuthService = require("./auth/tokenService")(userDB, tokenDB);
+const oAuth2Server = require("node-oauth2-server");
+
+// Express
+const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 9000;
+app.oauth = oAuth2Server({
+    model: oAuthService,
+    grants: ["password"],
+    debug: true,
+});
+const testAPIService = require("./test/testAPIService.js");
+const testAPIRoutes = require("./test/testAPIRoutes.js")(
+    express.Router(),
+    app,
+    testAPIService
+);
 
-app.use(express.json());
+// Auth and routes
+const authenticator = require("./auth/authenticator")(userDB);
+const routes = require("./auth/routes")(
+    express.Router(),
+    app,
+    authenticator
+);
 
-// Set up static file serving for the 'public' directory
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(app.oauth.errorHandler());
+app.use("/auth", routes);
+app.use("/test", testAPIRoutes);
+const PORT = 3000;
 
-// Handle API routes
-app.use('/api', require('./routes/apiRoutes'));
-
-// Redirect root path to 'home.html'
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'home.html'));
+    res.send('Welcome to the OAuth2 Server');
 });
 
 // Start the server
