@@ -1,47 +1,66 @@
-// Database imports
-const pgPool = require("./db/pgWrapper");
-const tokenDB = require("./db/tokenDB")(pgPool);
-const userDB = require("./db/userDB")(pgPool);
+const express = require('express');
+const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-// OAuth imports
-const oAuthService = require("./auth/tokenService")(userDB, tokenDB);
-const oAuth2Server = require("node-oauth2-server");
-
-// Express
-const express = require("express");
 const app = express();
-app.oauth = oAuth2Server({
-    model: oAuthService,
-    grants: ["password"],
-    debug: true,
+
+// Set up the view engine and views directory
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
+
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: 'SECRET'
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+let userProfile;
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
 });
-const testAPIService = require("./test/testAPIService.js");
-const testAPIRoutes = require("./test/testAPIRoutes.js")(
-    express.Router(),
-    app,
-    testAPIService
-);
 
-// Auth and routes
-const authenticator = require("./auth/authenticator")(userDB);
-const routes = require("./auth/routes")(
-    express.Router(),
-    app,
-    authenticator
-);
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(app.oauth.errorHandler());
-app.use("/auth", routes);
-app.use("/test", testAPIRoutes);
-const PORT = 3000;
+const GOOGLE_CLIENT_ID = '363371252616-abm8upra6627068ej0oqkm8apnp3sebm.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
 
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    userProfile = profile;
+    return done(null, userProfile);
+  }
+));
+
+// Routes
 app.get('/', (req, res) => {
-    res.send('Welcome to the OAuth2 Server');
+  res.render('auth');
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.get('/success', (req, res) => res.render('success', { user: userProfile }));
+app.get('/error', (req, res) => res.send("Error logging in"));
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/error' }),
+  (req, res) => {
+    res.redirect('/success');
+  }
+);
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('App listening on port ' + port));
