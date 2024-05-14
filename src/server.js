@@ -6,6 +6,13 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const app = express();
 
+const dotenv = require('dotenv');
+const result = dotenv.config();
+
+if (result.error) {
+  throw result.error;
+}
+
 // Set up the view engine and views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
@@ -29,8 +36,8 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-const GOOGLE_CLIENT_ID = '363371252616-abm8upra6627068ej0oqkm8apnp3sebm.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
