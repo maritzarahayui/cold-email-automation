@@ -1,20 +1,55 @@
 <!doctype html>
 <html>
 <head>
-    <title>Google SignIn</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body        { padding-top:70px; }
+        body {
+            padding-top: 0;
+            background-color: #030712;
+            color: white;
+            font-family: Raleway, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            padding-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .btn-custom {
+            background-color: #FF6431;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+        }
+
+        .btn-custom:hover {
+            background-color: #172554;
+            color: white;
+        }
+
+        .jumbotron {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            width: 40%;
+            text-align: center;
+            padding: 40px 10px;
+        }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="jumbotron text-center text-primary">
-        <h1><span class="fa fa-lock"></span> Social Authentication</h1>
-        <p>Login or Register with:</p>
-        <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> SignIn with Google</a>
-    </div>
+<div class="jumbotron">
+    <h1>Welcome!</h1>
+    <a href="/auth/google" class="btn btn-custom"><span class="fa fa-google"></span> Login with Google</a>
 </div>
 </body>
-</html> 
+</html>
