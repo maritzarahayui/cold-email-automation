@@ -3,6 +3,7 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const OpenAI= require('openai');
 
 const app = express();
 
@@ -25,6 +26,36 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// OPEN AI //
+app.use(express.json());
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+app.post("/chat", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {"role": "system", "content": "You are a helpful assistant in generating email drafts."},
+        {"role": "user", "content": prompt}
+      ],
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: response.choices[0]
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: "Failed to create completion"
+    });
+  }
+});
 
 let userProfile;
 
@@ -68,6 +99,10 @@ app.get('/auth/google/callback',
     res.redirect('/success');
   }
 );
+
+app.get('/chat', (req, res) => {
+  res.render('chat');
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('App listening on port ' + port));
