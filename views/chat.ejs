@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-top: 0;
+            background-color: #030712;
+            color: white;
+            font-family: Raleway, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .jumbotron {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            width: 40%;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .well {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .text-primary {
+            color: #FF6431 !important;
+        }
+
+        h1 {
+            padding-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div class="jumbotron">
+    <h1 class="text-primary"><span class="fa fa-user"></span>CHAT EMAIL</h1>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="well">
+                <p>
+                    <strong>Id</strong>: <%= user.id %><br>
+                    <strong>Email</strong>: <%= user.emails[0].value %><br>
+                    <strong>Name</strong>: <%= user.displayName %>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
