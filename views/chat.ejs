@@ -82,7 +82,45 @@
     </form>
     <div class="output-area" id="outputArea">Your generated email will appear here...</div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    const form = document.getElementById('chatForm');
+    const messageContainer = document.getElementById('messageContainer');
+    let messages = []; // Store messages
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const content = formData.get('content');
+
+        const response = await fetch('http://localhost:3000/chat', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer secret",
+            },
+            body: JSON.stringify({ content }),
+        });
+
+        if (response.body) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let resultContent = '';
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                resultContent += decoder.decode(value);
+            }
+        }
+
+        form.reset(); // Reset the form after submission
+    });
+</script>
+
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#promptForm').on('submit', function(e) {
@@ -103,6 +141,6 @@
             });
         });
     });
-</script>
+</script> -->
 </body>
 </html>
