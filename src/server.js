@@ -3,6 +3,7 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const OpenAI= require('openai');
 
 const app = express();
 
@@ -25,6 +26,48 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// OPEN AI //
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+app.post("/chat", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {"role": "system", "content": "You are a helpful assistant in generating email drafts."},
+        {"role": "user", "content": prompt}
+      ],
+    });
+
+    console.log("PROMPT!!!! " + prompt)
+
+    // Log the full response object to see all data
+    console.log("Full response from OpenAI: ", response);
+
+    // If you only want to log the generated text:
+    if (response && response.choices && response.choices.length > 0) {
+      console.log("Generated text: ", response.choices[0].message.content);
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: response.choices[0].message.content
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: "Failed to create completion"
+    });
+  }
+});
 
 let userProfile;
 
@@ -68,6 +111,10 @@ app.get('/auth/google/callback',
     res.redirect('/success');
   }
 );
+
+app.get('/chat', (req, res) => {
+  res.render('chat');
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('App listening on port ' + port));
