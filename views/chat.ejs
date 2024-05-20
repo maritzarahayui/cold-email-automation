@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Profile</title>
+    <title>Email</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -22,7 +22,7 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            width: 40%;
+            width: 50%;
             text-align: center;
             padding: 40px 20px;
         }
@@ -43,23 +43,66 @@
             padding-bottom: 20px;
             font-weight: bold;
         }
+
+        input[type="text"], button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: #FF6431;
+            border: none;
+        }
+
+        .btn-primary:hover, .btn-primary:active {
+            width: 100%;
+            background-color: #f9835c;
+            border: none;
+        }
+
+        .output-area {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            word-wrap: break-word;
+        }
     </style>
 </head>
-
 <body>
 <div class="jumbotron">
-    <h1 class="text-primary"><span class="fa fa-user"></span>CHAT EMAIL</h1>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="well">
-                <p>
-                    <strong>Id</strong>: <%= user.id %><br>
-                    <strong>Email</strong>: <%= user.emails[0].value %><br>
-                    <strong>Name</strong>: <%= user.displayName %>
-                </p>
-            </div>
-        </div>
-    </div>
+    <h1 class="text-primary">Generating EMAILs Draft</h1>
+    <form id="promptForm">
+        <input type="text" class="form-control" id="promptInput" placeholder="Enter your prompt" required>
+        <button type="submit" class="btn btn-primary">Generate</button>
+    </form>
+    <div class="output-area" id="outputArea">Your generated email will appear here...</div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#promptForm').on('submit', function(e) {
+            e.preventDefault();
+            var prompt = $('#promptInput').val();
+            $.ajax({
+                url: '/chat',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ prompt: prompt }),
+                success: function(response) {
+                    console.log("RESPONSEEE!!!! " + response)
+                    $('#outputArea').html(response.data.replace(/\n/g, '<br>') || 'No response generated.');
+                },
+                error: function(xhr) {
+                    $('#outputArea pre').text('Error: ' + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

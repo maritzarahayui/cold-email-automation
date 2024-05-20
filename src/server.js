@@ -28,7 +28,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // OPEN AI //
-app.use(express.json());
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
 });
@@ -44,9 +46,19 @@ app.post("/chat", async (req, res) => {
       ],
     });
 
+    console.log("PROMPT!!!! " + prompt)
+
+    // Log the full response object to see all data
+    console.log("Full response from OpenAI: ", response);
+
+    // If you only want to log the generated text:
+    if (response && response.choices && response.choices.length > 0) {
+      console.log("Generated text: ", response.choices[0].message.content);
+    }
+
     return res.status(200).json({
       success: true,
-      data: response.choices[0]
+      data: response.choices[0].message.content
     });
 
   } catch (error) {
