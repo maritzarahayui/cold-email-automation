@@ -73,7 +73,9 @@
         }
     </style>
 </head>
+
 <body>
+
 <div class="jumbotron">
     <h1 class="text-primary">Generating EMAILs Draft</h1>
     <form id="promptForm">
@@ -82,27 +84,37 @@
     </form>
     <div class="output-area" id="outputArea">Your generated email will appear here...</div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        $('#promptForm').on('submit', function(e) {
-            e.preventDefault();
-            var prompt = $('#promptInput').val();
-            $.ajax({
-                url: '/chat',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ prompt: prompt }),
-                success: function(response) {
-                    console.log("RESPONSEEE!!!! " + response)
-                    $('#outputArea').html(response.data.replace(/\n/g, '<br>') || 'No response generated.');
-                },
-                error: function(xhr) {
-                    $('#outputArea pre').text('Error: ' + xhr.responseText);
-                }
-            });
-        });
+    const generatedContent = document.querySelector("#outputArea");
+    var form = document.getElementById('promptForm');
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      var prompt = document.getElementById('promptInput').value;
+
+      const response = await fetch("http://localhost:3000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: prompt }),
+      });
+
+      const decoder = new TextDecoder();
+      const reader = response.body.getReader();
+      let chunks = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks += decoder.decode(value);
+        formattedChunks = chunks.replace(/\n/g, '<br>'); 
+        generatedContent.innerHTML = formattedChunks;
+      }
     });
-</script>
+  </script>
+
 </body>
 </html>
