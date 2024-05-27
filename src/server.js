@@ -38,36 +38,67 @@ const openai = new OpenAI({
 app.post("/chat", async (req, res) => {
   try {
     const { prompt } = req.body;
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {"role": "system", "content": "You are a helpful assistant in generating email drafts."},
-        {"role": "user", "content": prompt}
-      ],
+    const apiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + openai.apiKey
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {"role": "system", "content": "You are a helpful assistant in generating email drafts."},
+          {"role": "user", "content": prompt}
+        ],
+        stream: true
+      })
     });
 
-    console.log("PROMPT!!!! " + prompt)
-
-    // Log the full response object to see all data
-    console.log("Full response from OpenAI: ", response);
-
-    // If you only want to log the generated text:
-    if (response && response.choices && response.choices.length > 0) {
-      console.log("Generated text: ", response.choices[0].message.content);
+    if (!apiResponse.body) {
+      res.status(500).send('Failed to obtain response body');
+      return;
     }
 
-    return res.status(200).json({
-      success: true,
-      data: response.choices[0].message.content
-    });
+    const reader = apiResponse.body.getReader();
+    const decoder = new TextDecoder();
+    let isFinished = false;
+    let accumulatedData = '';
+
+    while (!isFinished) {
+      const { value, done } = await reader.read();
+      isFinished = done;
+      accumulatedData += decoder.decode(value, {stream: !done});
+
+      let boundary = accumulatedData.indexOf('\n');
+      while (boundary !== -1) {
+        const chunk = accumulatedData.substring(0, boundary);
+        accumulatedData = accumulatedData.substring(boundary + 1);
+        processChunk(chunk, res);
+        boundary = accumulatedData.indexOf('\n');
+      }
+    }
+
+    res.end();
 
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      error: "Failed to create completion"
-    });
+    console.error('Stream processing failed:', error);
+    res.status(500).send('Stream processing failed');
   }
 });
+
+function processChunk(chunk, res) {
+  if (chunk.trim() === 'data: [DONE]' || !chunk.trim().startsWith('data:')) return;
+
+  try {
+    const json = JSON.parse(chunk.trim().replace('data: ', ''));
+    const text = json.choices?.[0]?.delta?.content;
+    if (text) {
+      res.write(text);
+    }
+  } catch (error) {
+    console.error('Error processing chunk:', chunk, error);
+  }
+}
 
 let userProfile;
 
