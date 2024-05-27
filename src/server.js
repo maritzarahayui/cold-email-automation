@@ -62,102 +62,43 @@ app.post("/chat", async (req, res) => {
     const reader = apiResponse.body.getReader();
     const decoder = new TextDecoder();
     let isFinished = false;
-    const bags = []
+    let accumulatedData = '';
 
     while (!isFinished) {
       const { value, done } = await reader.read();
       isFinished = done;
-      const decodedValue = decoder.decode(value)
-      console.log("decodedValue", decodedValue);
+      accumulatedData += decoder.decode(value, {stream: !done});
 
-      if (!decodedValue) break
-
-      for (const chunk of decodedValue.split('\n\n')) {
-        if (chunk.trim() === 'data: [DONE]') continue
-
-        bags.push(chunk)
-        try {
-          const json = JSON.parse(bags.join('').split('data: ').at(-1) || '{}')
-          const text = json.choices?.[0]?.delta?.content
-          console.log("json", json);
-          console.log("text", text);
-
-          if (text) {
-            res.write(text)
-          }
-        } catch (error) {
-          // ignore
-        }
+      let boundary = accumulatedData.indexOf('\n');
+      while (boundary !== -1) {
+        const chunk = accumulatedData.substring(0, boundary);
+        accumulatedData = accumulatedData.substring(boundary + 1);
+        processChunk(chunk, res);
+        boundary = accumulatedData.indexOf('\n');
       }
     }
 
     res.end();
+
   } catch (error) {
-    console.error("Error during streaming:", error);
-    res.status(500).json({
-      success: false,
-      error: "Failed to create completion: " + error.message
-    });
+    console.error('Stream processing failed:', error);
+    res.status(500).send('Stream processing failed');
   }
 });
 
-// app.post("/chat", async (req, res) => {
-//   try {
-//     const { prompt } = req.body;
-//     const response = await fetch('https://api.openai.com/v1/chat/completions', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': 'Bearer ' + openai.apiKey,
-//       },
-//       body: JSON.stringify({
-//         model: 'gpt-3.5-turbo',
-//         messages: [
-//           {"role": "system", "content": "You are a helpful assistant in generating email drafts."},
-//           {"role": "user", "content": prompt}
-//         ],
-//         stream: true 
-//       })
-//     });
+function processChunk(chunk, res) {
+  if (chunk.trim() === 'data: [DONE]' || !chunk.trim().startsWith('data:')) return;
 
-//     console.log("PROMPT!!!! " + prompt)
-//     console.log("FULL RESPONSE!!!!" + response.toString())
-
-//     if (!response.body) {
-//       res.status(500).send('Failed to obtain response body');
-//       return;
-//     }
-
-//     const reader = response.body.getReader();
-//     console.log("READERRRR!!!! " + reader)
-//     const decoder = new TextDecoder();
-//     let isFinished = false;
-
-//     res.writeHead(200, {
-//       'Content-Type': 'text/event-stream',
-//       'Cache-Control': 'no-cache',
-//       'Connection': 'keep-alive',
-//     });
-
-//     while (!isFinished) {
-//       const { value, done } = await reader.read();
-//       isFinished = done;
-//       if (value) {
-//         const decodedValue = decoder.decode(value, {stream: !done});
-//         res.write(decodedValue); 
-//       }
-//     }
-
-//     res.end();
-
-//   } catch (error) {
-//     console.log("ERRRORRR!!!!" + error.messages)
-//     return res.status(500).json({
-//       success: false,
-//       error: "Failed to create completion"
-//     });
-//   }
-// });
+  try {
+    const json = JSON.parse(chunk.trim().replace('data: ', ''));
+    const text = json.choices?.[0]?.delta?.content;
+    if (text) {
+      res.write(text);
+    }
+  } catch (error) {
+    console.error('Error processing chunk:', chunk, error);
+  }
+}
 
 let userProfile;
 
