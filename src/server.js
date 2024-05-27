@@ -38,6 +38,7 @@ const openai = new OpenAI({
 app.post("/chat", async (req, res) => {
   try {
     const { prompt } = req.body;
+    promptText = `Buatkan sebuah template email untuk customer tentang ${prompt}. Berikan juga caption di akhir yang menampilkan salam penutup dari Algo Network`;
     const apiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -48,7 +49,8 @@ app.post("/chat", async (req, res) => {
         model: 'gpt-3.5-turbo',
         messages: [
           {"role": "system", "content": "You are a helpful assistant in generating email drafts."},
-          {"role": "user", "content": prompt}
+          // {"role": "system", "content": "Algo Network is a Palugada Company Based in Jakarta"},
+          {"role": "user", "content": promptText}
         ],
         stream: true
       })
