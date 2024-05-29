@@ -4,6 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const OpenAI = require("openai");
+const { ensureAuthenticated } = require("../middleware/middleware");
 
 const app = express();
 
@@ -132,8 +133,15 @@ passport.use(
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
-      userProfile = profile;
-      return done(null, userProfile);
+      const email = profile.emails[0].value;
+      const domain = email.split("@")[1];
+
+      if (domain === "bangkit.academy") {
+        userProfile = profile;
+        return done(null, userProfile);
+      } else {
+        return done(null, false, { message: "Unauthorized domain" });
+      }
     }
   )
 );
@@ -144,7 +152,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/success", (req, res) => res.render("success", { user: userProfile }));
-app.get("/error", (req, res) => res.send("Error logging in"));
+
+app.get("/error", (req, res) => {
+  const message = req.query.message || "An error occurred";
+  res.render("error", { message });
+});
 
 app.get(
   "/auth/google",
@@ -153,13 +165,25 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/error" }),
-  (req, res) => {
-    res.redirect("/success");
+  (req, res, next) => {
+    passport.authenticate("google", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.redirect(`/error?message=${encodeURIComponent(info.message)}`);
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect("/success");
+      });
+    })(req, res, next);
   }
 );
 
-app.get("/chat", (req, res) => {
+app.get("/chat", ensureAuthenticated, (req, res) => {
   res.render("chat");
 });
 
