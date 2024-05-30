@@ -16,9 +16,12 @@ node_modules/
 # Ignore build output
 /build/
 
+<<<<<<< HEAD
 # Ignore history output
 *.history/.env_*
 
+=======
+>>>>>>> 3f7cb27ac2bd8c676aba6236643f2ddd1f9fab2d
 # Ignore OS generated files
 .DS_Store
 Thumbs.db

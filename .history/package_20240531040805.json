@@ -27,7 +27,10 @@
     "mongoose": "^8.3.4",
     "nanoid": "^3.3.7",
     "node-oauth2-server": "^2.4.0",
+<<<<<<< HEAD
     "nodemailer": "^6.9.13",
+=======
+>>>>>>> 3f7cb27ac2bd8c676aba6236643f2ddd1f9fab2d
     "openai": "^4.47.1",
     "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",

@@ -61,8 +61,11 @@ const chatHandler = async (req, res) => {
       }
     }
 
+<<<<<<< HEAD
     generatedEmailContent = accumulatedData; // connect with email
 
+=======
+>>>>>>> 3f7cb27ac2bd8c676aba6236643f2ddd1f9fab2d
     const user = req.user;
     const createdAt = new Date().toISOString();
     const data = {
@@ -77,8 +80,11 @@ const chatHandler = async (req, res) => {
     };
 
     await storeData(user.id, data);
+<<<<<<< HEAD
  
     console.log("isi data " + data) // delete
+=======
+>>>>>>> 3f7cb27ac2bd8c676aba6236643f2ddd1f9fab2d
 
     res.end();
 
@@ -97,13 +103,17 @@ function processChunk(chunk, res) {
     const text = json.choices?.[0]?.delta?.content;
     if (text) {
       res.write(text);
+<<<<<<< HEAD
       generatedEmailContent += text; // connect with email
+=======
+>>>>>>> 3f7cb27ac2bd8c676aba6236643f2ddd1f9fab2d
     }
   } catch (error) {
     console.error("Error processing chunk:", chunk, error);
   }
 }
 
+<<<<<<< HEAD
 // mail
 // src/server/handler.js
 const { sendTextMail, sendAttachmentsMail } = require('../services/mailer');
@@ -168,5 +178,9 @@ module.exports = {
   chatHandler,
   sendTextMailHandler,
   sendAttachmentsMailHandler,
+=======
+module.exports = {
+  chatHandler,
+>>>>>>> 3f7cb27ac2bd8c676aba6236643f2ddd1f9fab2d
   userProfile,
 };
