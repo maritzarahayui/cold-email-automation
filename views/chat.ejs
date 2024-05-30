@@ -114,6 +114,17 @@
         placeholder="Your generated email will appear here..."
         disabled
       ></textarea>
+
+      <form id="sendMailForm">
+        <input
+          type="email"
+          class="form-control"
+          id="emailTo"
+          placeholder="Enter recipient's email"
+          required
+        />
+        <button type="submit" class="btn btn-primary">Send Email</button>
+      </form>
     </div>
 
     <script>
@@ -148,6 +159,48 @@
         }
         outputArea.disabled = false; // Enable textarea after generation
       });
+
+      sendMailForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const to = document.getElementById("emailTo").value;
+          let text = document.getElementById("outputArea").value;
+          
+          // ambil SUbject dari line pertama --> Subject:
+          let subjectLineEndIndex = text.indexOf("\n");
+          let subjectLine = text.substring(0, subjectLineEndIndex).trim();
+          let subject = subjectLine.startsWith("Subject:") ? subjectLine.substring(8).trim() : "No Subject";
+          
+          text = text.substring(subjectLineEndIndex + 1).trim(); // ga pake Subject;
+
+          const htmlContent = `
+            ${text.split('\n').map((line, index, array) => {
+              if (index === 0 || index === array.length - 1) {
+                return `<strong>${line}</strong>`;
+              }
+              return line;
+            }).join('<br>')}
+            <br><br>
+            <a href="https://algo-network.vercel.app/" style="display: inline-block; padding: 10px; background-color: #ff6431; color: black; text-decoration: none; margin-top: 20px;">Pay us a visit!</a>
+          `;
+
+          const mailResponse = await fetch("http://localhost:3000/text-mail", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ to: to, subject: subject, text: text, html: htmlContent }),
+          });
+
+          if (mailResponse.ok) {
+            alert("Email sent successfully!");
+          } else {
+            alert("Failed to send email.");
+          }
+        });
+
+
+
     </script>
   </body>
 </html>

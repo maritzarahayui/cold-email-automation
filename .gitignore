@@ -16,6 +16,9 @@ node_modules/
 # Ignore build output
 /build/
 
+# Ignore history output
+*.history/.env_*
+
 # Ignore OS generated files
 .DS_Store
 Thumbs.db

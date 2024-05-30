@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require("passport");
-const { chatHandler } = require("./handler");
+const { chatHandler, sendTextMailHandler, sendAttachmentsMailHandler } = require("./handler");
 const { ensureAuthenticated } = require("../middleware/middleware");
 const { userProfile } = require("./passportConfig");
 
@@ -49,5 +49,10 @@ router.get("/chat", ensureAuthenticated, (req, res) => {
 });
 
 router.post("/chat", chatHandler);
+
+// mail
+
+router.post("/text-mail", sendTextMailHandler);
+router.post("/attachments-mail", sendAttachmentsMailHandler);
 
 module.exports = router;
