@@ -106,7 +106,12 @@ const sendTextMailHandler = async (req, res) => {
   const { to, text, subject, html } = req.body;
 
   try {
-    const recipients = to.split(",").map(email => email.trim());
+    let recipients = [];
+    if (Array.isArray(to)) {
+      recipients = to;
+    } else {
+      recipients = to.split(",").map(email => email.trim());
+    }
 
     for (const recipient of recipients) {
       const mailData = {
@@ -117,17 +122,17 @@ const sendTextMailHandler = async (req, res) => {
         html: html || `<b>${text}</b>`,
       };
 
-      sendTextMail(mailData, (error, info) => {
+      await sendTextMail(mailData, (error, info) => {
         if (error) {
           console.log(error);
         }
       });
     }
 
-    res.status(200).send({ message: "Mail sent to all recipients" });
+    res.status(200).send({ message: "Mail has been successfully sent to recipient(s)!" });
   } catch (error) {
-    console.error("Failed to send mail:", error);
-    res.status(500).send({ error: "Failed to send mail" });
+    console.error("Failed to send mail due to: ", error);
+    res.status(500).send({ error: "Failed to send mail :(" });
   }
 };
 
@@ -150,7 +155,7 @@ const sendAttachmentsMailHandler = (req, res) => {
       console.log(error);
       return res.status(500).send({ error: "Failed to send mail" });
     }
-    res.status(200).send({ message: "Mail sent", message_id: info.messageId });
+    res.status(200).send({ message: "Mail has been successfully sent!", message_id: info.messageId });
   });
 };
 

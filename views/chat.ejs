@@ -102,8 +102,8 @@
     <textarea id="outputArea" placeholder="Your generated email will appear here..." disabled></textarea>
 
     <form id="sendMailForm">
-      <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas"
-        required>
+      <input type="file" class="form-control" id="emailFile" accept=".csv" />
+      <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas" />
       <button type="submit" class="btn btn-primary">Send Email</button>
     </form>
   </div>
@@ -141,9 +141,24 @@
       outputArea.disabled = false; // Enable textarea after generation
     });
 
+    const toggleEmailToRequired = () => {
+      if (emailFileInput.files.length > 0) {
+        emailToInput.removeAttribute("required");
+      } else {
+        emailToInput.setAttribute("required", "required");
+      }
+    };
+
+    const emailToInput = document.getElementById("emailTo");
+    const emailFileInput = document.getElementById("emailFile");
+
+    emailFileInput.addEventListener("change", toggleEmailToRequired);
+    toggleEmailToRequired();
+
     sendMailForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const to = document.getElementById("emailTo").value;
+      const emailToInput = document.getElementById("emailTo").value;
+      const emailFileInput = document.getElementById("emailFile").files[0];
       let text = document.getElementById("outputArea").value;
       let subjectLineEndIndex = text.indexOf("\n");
       let subjectLine = text.substring(0, subjectLineEndIndex).trim();
@@ -151,22 +166,30 @@
       text = text.substring(subjectLineEndIndex + 1).trim();
 
       const htmlContent = `
-            ${text.split('\n').map((line, index, array) => {
+        ${text.split('\n').map((line, index, array) => {
         if (index === 0 || index === array.length - 1) {
           return `<strong>${line}</strong>`;
         }
         return line;
       }).join('<br>')}
-            <br><br>
-            <a href="https://algo-network.vercel.app/" style="display: inline-block; padding: 10px; background-color: #ff6431; color: black; text-decoration: none; margin-top: 20px;">Pay us a visit!</a>
-          `;
+        <br><br>
+        <a href="https://algo-network.vercel.app/" style="display: inline-block; padding: 10px; background-color: #ff6431; color: black; text-decoration: none; margin-top: 20px;">Pay us a visit!</a>
+      `;
+
+      let recipients = [];
+      if (emailFileInput) {
+        const fileContent = await emailFileInput.text();
+        recipients = fileContent.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+      } else {
+        recipients = emailToInput.split(",").map(email => email.trim());
+      }
 
       const mailResponse = await fetch("http://localhost:3000/text-mail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ to: to, subject: subject, text: text, html: htmlContent }),
+        body: JSON.stringify({ to: recipients, subject: subject, text: text, html: htmlContent }),
       });
 
       if (mailResponse.ok) {
@@ -175,8 +198,6 @@
         alert("Failed to send email.");
       }
     });
-
-
 
   </script>
 </body>
