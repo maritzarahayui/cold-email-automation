@@ -17,7 +17,7 @@ node_modules/
 /build/
 
 # Ignore history output
-*.history/.env_*
+.history/
 
 # Ignore OS generated files
 .DS_Store
