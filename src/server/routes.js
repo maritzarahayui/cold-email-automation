@@ -47,11 +47,7 @@ router.get(
 router.get("/chat", ensureAuthenticated, (req, res) => {
   res.render("chat");
 });
-
 router.post("/chat", chatHandler);
-
-// mail
-
 router.post("/text-mail", sendTextMailHandler);
 router.post("/attachments-mail", sendAttachmentsMailHandler);
 

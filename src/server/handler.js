@@ -61,8 +61,6 @@ const chatHandler = async (req, res) => {
       }
     }
 
-    generatedEmailContent = accumulatedData; // connect with email
-
     const user = req.user;
     const createdAt = new Date().toISOString();
     const data = {
@@ -77,8 +75,6 @@ const chatHandler = async (req, res) => {
     };
 
     await storeData(user.id, data);
- 
-    console.log("isi data " + data) // delete
 
     res.end();
 
@@ -97,15 +93,12 @@ function processChunk(chunk, res) {
     const text = json.choices?.[0]?.delta?.content;
     if (text) {
       res.write(text);
-      generatedEmailContent += text; // connect with email
     }
   } catch (error) {
     console.error("Error processing chunk:", chunk, error);
   }
 }
 
-// mail
-// src/server/handler.js
 const { sendTextMail, sendAttachmentsMail } = require('../services/mailer');
 const { getMaxListeners } = require('nodemailer/lib/xoauth2');
 
@@ -113,56 +106,53 @@ const sendTextMailHandler = async (req, res) => {
   const { to, text, subject, html } = req.body;
 
   try {
-    const mailData = {
-      from: process.env.EMAIL_USER,
-      to: to,
-      subject: subject,
-      text: text, // For clients not supporting HTML
-      html: html || `<b>${text}</b>`, // Use the generated content as HTML
-    };
+    const recipients = to.split(",").map(email => email.trim());
 
-    sendTextMail(mailData, (error, info) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).send({ error: "Failed to send mail" });
-      }
-      res.status(200).send({ message: "Mail sent", message_id: info.messageId });
-    });
+    for (const recipient of recipients) {
+      const mailData = {
+        from: process.env.EMAIL_USER,
+        to: recipient,
+        subject: subject,
+        text: text,
+        html: html || `<b>${text}</b>`,
+      };
+
+      sendTextMail(mailData, (error, info) => {
+        if (error) {
+          console.log(error);
+        }
+      });
+    }
+
+    res.status(200).send({ message: "Mail sent to all recipients" });
   } catch (error) {
-    console.error("Failed to fetch data from Firestore:", error);
-    res.status(500).send({ error: "Failed to fetch data" });
+    console.error("Failed to send mail:", error);
+    res.status(500).send({ error: "Failed to send mail" });
   }
 };
 
-
 const sendAttachmentsMailHandler = (req, res) => {
-    const { to, subject, text } = req.body;
-    const mailData = {
-        from: process.env.EMAIL_USER,
-        to: to,
-        subject: subject,
-        text: text,
-        html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer<br/>',
-        attachments: [
-            { filename: 'nodemailer.png', path: 'nodemailer.png' },
-            { filename: 'text_file.txt', path: 'text_file.txt' }
-        ]
-    };
+  const { to, subject, text } = req.body;
+  const mailData = {
+    from: process.env.EMAIL_USER,
+    to: to,
+    subject: subject,
+    text: text,
+    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer<br/>',
+    attachments: [
+      { filename: 'nodemailer.png', path: 'nodemailer.png' },
+      { filename: 'text_file.txt', path: 'text_file.txt' }
+    ]
+  };
 
-    sendAttachmentsMail(mailData, (error, info) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).send({ error: "Failed to send mail" });
-        }
-        res.status(200).send({ message: "Mail sent", message_id: info.messageId });
-    });
+  sendAttachmentsMail(mailData, (error, info) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).send({ error: "Failed to send mail" });
+    }
+    res.status(200).send({ message: "Mail sent", message_id: info.messageId });
+  });
 };
-
-// module.exports = {
-//     sendTextMail: sendTextMailHandler,
-//     sendAttachmentsMail: sendAttachmentsMailHandler
-// };
-
 
 module.exports = {
   chatHandler,
