@@ -119,7 +119,7 @@ const sendTextMailHandler = async (req, res) => {
         to: recipient,
         subject: subject,
         text: text,
-        html: html || `<b>${text}</b>`,
+        html: html,
       };
 
       await sendTextMail(mailData, (error, info) => {
