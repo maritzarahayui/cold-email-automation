@@ -5,7 +5,12 @@
   <title>Email</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    .raleway {
+      font-family: 'Raleway', sans-serif;
+    }
+
     body {
       padding-top: 0;
       background-color: #030712;
@@ -166,17 +171,19 @@
       text = text.substring(subjectLineEndIndex + 1).trim();
 
       const htmlContent = `
-        <div style="text-align: center;">
-          <img src="https://algo-network.vercel.app/logos/logo.png" alt="" style="max-width: 50%; height: auto;">
+        <div style="width: 80%; margin: 0 auto; text-align: left; font-family: Raleway; font-size: 16px;">
+          <div style="text-align: center;">
+            <img src="https://algo-network.vercel.app/logos/logo.png" alt="" style="max-width: 50%; height: auto;">
+          </div>
+          ${text.split('\n').map((line, index, array) => {
+            if (index === 0) {
+              return `<strong style="color: #172554; font-size: 24px;">${line}</strong>`;
+            } else if (index === array.length - 1) {
+              return `<a href="https://algo-network.vercel.app/" style="color: #172554;">${line}</a>`;
+            }
+            return `<span>${line}</span>`;
+          }).join('<br>')}
         </div>
-        ${text.split('\n').map((line, index, array) => {
-          if (index === 0) {
-            return `<strong style="color: #172554; font-size: 24px;">${line}</strong>`;
-          } else if (index === array.length - 1) {
-            return `<a href="https://algo-network.vercel.app/" style="color: #172554;">${line}</a>`;
-          }
-          return line;
-        }).join('<br>')}
       `;
 
       let recipients = [];
