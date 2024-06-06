@@ -38,7 +38,7 @@ router.get(
         if (err) {
           return next(err);
         }
-        return res.redirect("/success");
+        return res.redirect("/chat");
       });
     })(req, res, next);
   }

@@ -3,9 +3,16 @@
 
 <head>
   <title>Email</title>
+  
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
   <style>
     .raleway {
       font-family: 'Raleway', sans-serif;
@@ -18,6 +25,7 @@
       font-family: Raleway, sans-serif;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
     }
@@ -28,17 +36,9 @@
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      width: 50%;
+      flex-grow: 1;
       text-align: center;
       padding: 40px 20px;
-    }
-
-    .well {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-      text-align: left;
     }
 
     .text-primary {
@@ -46,27 +46,49 @@
     }
 
     h1 {
-      padding-bottom: 20px;
       font-weight: bold;
+      margin-bottom: 40px;
     }
 
-    input[type="text"],
-    button {
+    .long-btn {
+      width: 100%;
+      background-color: #ff6431;
+      color: white;
+      border: none;
       margin-top: 20px;
-      margin-bottom: 20px;
+    }
+
+    .long-btn:hover{
+      background-color: #172554;
+      color: white;
+      border: none;
     }
 
     .btn-primary {
-      width: 100%;
+      margin-left: 10px;
       background-color: #ff6431;
       border: none;
     }
 
     .btn-primary:hover,
     .btn-primary:active {
-      width: 100%;
-      background-color: #f9835c;
+      background-color: #172554;
+      color: white;
       border: none;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-family: inherit;
+      resize: none;
+      height: 200px;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     .output-area {
@@ -79,39 +101,34 @@
       overflow-y: auto;
       word-wrap: break-word;
       white-space: pre-wrap;
-      /* Ensure new lines are preserved */
-    }
-
-    textarea {
-      width: 100%;
-      height: 300px;
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      font-family: inherit;
-      resize: none;
     }
   </style>
 </head>
 
 <body>
-  <div class="jumbotron">
-    <h1 class="text-primary">Generating EMAILs Draft</h1>
-    <form id="promptForm">
-      <input type="text" class="form-control" id="promptInput" placeholder="Enter the email's topic" required />
-      <button type="submit" class="btn btn-primary">Generate</button>
-    </form>
-    <textarea id="outputArea" placeholder="Your generated email will appear here..." disabled></textarea>
+  <h1 class="text-primary">Generating EMAILs Draft</h1>
 
-    <form id="sendMailForm">
-      <input type="file" class="form-control" id="emailFile" accept=".csv" />
-      <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas" />
-      <button type="submit" class="btn btn-primary">Send Email</button>
-    </form>
-  </div>
+  <div class="container d-flex justify-content-between">
+    <div class="jumbotron mr-2">
+      <form id="promptForm">
+        <div class="d-flex">
+          <input type="text" class="form-control" id="promptInput" placeholder="Enter the email's topic" required />
+          <button type="submit" class="btn btn-primary">Generate</button>
+        </div>
+      </form>
+
+      <textarea id="outputArea" placeholder="Your generated email will appear here..." disabled></textarea>
+
+      <form id="sendMailForm">
+        <div class="d-flex" style="gap: 10px;">
+          <input type="file" class="form-control" id="emailFile" accept=".csv" />
+          <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas" />
+        </div>
+        
+        <button type="submit" class="btn long-btn">Send Email</button>
+      </form>
+    </div>
+  </div> 
 
   <script>
     var form = document.getElementById("promptForm");
@@ -184,6 +201,32 @@
             return `<span>${line}</span>`;
           }).join('<br>')}
         </div>
+
+        <footer style="width: 80%; max-width: 800px; margin: 0 auto; text-align: center; font-family: Raleway; position: relative; background: #172554; padding: 20px 50px; display: flex; flex-direction: column; align-items: center;">
+          <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+            <ul style="display: flex; justify-content: center; align-items: center; padding: 0; list-style: none; margin: 0;">
+              <li style="margin: 0 10px;">
+                <a href="#" style="display: inline-block;">
+                  <img src="https://img.icons8.com/?size=100&id=3685&format=png&color=FFFFFF" alt="Website" style="width: 30px; height: 30px;">
+                </a>
+              </li>
+              <li style="margin: 0 10px;">
+                <a href="#" style="display: inline-block;">
+                  <img src="https://img.icons8.com/?size=100&id=447&format=png&color=FFFFFF" alt="LinkedIn" style="width: 30px; height: 30px;">
+                </a>
+              </li>
+              <li style="margin: 0 10px;">
+                <a href="#" style="display: inline-block;">
+                  <img src="https://img.icons8.com/?size=100&id=32292&format=png&color=FFFFFF" alt="Instagram" style="width: 30px; height: 30px;">
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <p style="color: #fff; font-size: 1rem; font-weight: 300;">&copy;2024 Algo Network | All Rights Reserved</p>
+          </div>
+        </footer>
       `;
 
       let recipients = [];
