@@ -36,5 +36,5 @@ app.use(bodyParser.json());
 // Use the routes defined in routes.js
 app.use("/", routes);
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => console.log("App listening on port " + port));
