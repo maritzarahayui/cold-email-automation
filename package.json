@@ -4,7 +4,8 @@
   "description": "Presented by C241-CE01 Team",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/server/server.js"
+    "dev": "nodemon ./src/server/server.js",
+    "start": "node ./src/server/server.js"
   },
   "repository": {
     "type": "git",
