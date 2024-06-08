@@ -1,8 +1,8 @@
 const { storeData, db } = require('../services/storeData');
 
 const OpenAI = require("openai");
-const dotenv = require("dotenv");
-const result = dotenv.config();
+// const dotenv = require("dotenv");
+// const result = dotenv.config();
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
