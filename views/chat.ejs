@@ -142,7 +142,7 @@
       outputArea.value = "Generating email...";
       outputArea.disabled = true; // Disable textarea during generation
 
-      const response = await fetch("http://localhost:3000/chat", {
+      const response = await fetch("https://cold-email-automation-j6el7ykauq-et.a.run.app/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -237,7 +237,7 @@
         recipients = emailToInput.split(",").map(email => email.trim());
       }
 
-      const mailResponse = await fetch("http://localhost:3000/text-mail", {
+      const mailResponse = await fetch("https://cold-email-automation-j6el7ykauq-et.a.run.app/text-mail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
