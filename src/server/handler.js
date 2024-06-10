@@ -97,11 +97,12 @@ function processChunk(chunk, res) {
   }
 }
 
-const { sendTextMail, sendAttachmentsMail } = require('../services/mailer');
+const { sendTextMail, sendAttachmentsMail, scheduleEmail } = require('../services/mailer');
 const { getMaxListeners } = require('nodemailer/lib/xoauth2');
+const moment = require('moment'); 
 
 const sendTextMailHandler = async (req, res) => {
-  const { to, text, subject, html } = req.body;
+  const { to, text, subject, html, scheduleTime } = req.body;
 
   try {
     let recipients = [];
@@ -120,17 +121,36 @@ const sendTextMailHandler = async (req, res) => {
         html: html,
       };
 
-      await sendTextMail(mailData, (error, info) => {
-        if (error) {
-          console.log(error);
-        }
-      });
+      // Schedule the email to be sent at the specified time
+      const scheduleDate = moment(scheduleTime);
+      const delayMilliseconds = scheduleDate.diff(moment(), 'milliseconds');
+      
+      if (delayMilliseconds > 0) {
+        setTimeout(() => {
+          sendTextMail(mailData, (err, info) => {
+            if (err) {
+              console.error('Error sending email:', err);
+            } else {
+              console.log('Email sent:', info.response);
+            }
+          });
+        }, delayMilliseconds);
+      } else {
+        // Send immediately if the time is in the past or invalid
+        sendTextMail(mailData, (err, info) => {
+          if (err) {
+            console.error('Error sending email:', err);
+          } else {
+            console.log('Email sent:', info.response);
+          }
+        });
+      }
     }
 
-    res.status(200).send({ message: "Mail has been successfully sent to recipient(s)!" });
+    res.status(200).send({ message: "Mail has been successfully scheduled to be sent to recipient(s)!" });
   } catch (error) {
-    console.error("Failed to send mail due to: ", error);
-    res.status(500).send({ error: "Failed to send mail :(" });
+    console.error("Failed to schedule mail due to: ", error);
+    res.status(500).send({ error: "Failed to schedule mail :(" });
   }
 };
 

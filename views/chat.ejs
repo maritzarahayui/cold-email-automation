@@ -123,8 +123,8 @@
         <div class="d-flex" style="gap: 10px;">
           <input type="file" class="form-control" id="emailFile" accept=".csv" />
           <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas" />
+          <input type="datetime-local" class="form-control" id="scheduleTime" placeholder="Select date and time" required />
         </div>
-        
         <button type="submit" class="btn long-btn">Send Email</button>
       </form>
     </div>
@@ -142,7 +142,7 @@
       outputArea.value = "Generating email...";
       outputArea.disabled = true; // Disable textarea during generation
 
-      const response = await fetch("https://cold-email-automation-j6el7ykauq-et.a.run.app/chat", {
+      const response = await fetch("http://localhost:3000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,6 +181,7 @@
       event.preventDefault();
       const emailToInput = document.getElementById("emailTo").value;
       const emailFileInput = document.getElementById("emailFile").files[0];
+      const scheduleTimeInput = document.getElementById("scheduleTime").value;
       let text = document.getElementById("outputArea").value;
       let subjectLineEndIndex = text.indexOf("\n");
       let subjectLine = text.substring(0, subjectLineEndIndex).trim();
@@ -237,18 +238,18 @@
         recipients = emailToInput.split(",").map(email => email.trim());
       }
 
-      const mailResponse = await fetch("https://cold-email-automation-j6el7ykauq-et.a.run.app/text-mail", {
+      const mailResponse = await fetch("http://localhost:3000/text-mail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ to: recipients, subject: subject, text: text, html: htmlContent }),
+        body: JSON.stringify({ to: recipients, subject: subject, text: text, html: htmlContent, scheduleTime: scheduleTimeInput }),
       });
 
       if (mailResponse.ok) {
-        alert("Email sent successfully!");
+        alert("Email scheduled successfully!");
       } else {
-        alert("Failed to send email.");
+        alert("Failed to schedule email.");
       }
     });
 

@@ -23,7 +23,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://cold-email-automation-j6el7ykauq-et.a.run.app/auth/google/callback",
+      callbackURL: "http://localhost:3000/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       const email = profile.emails[0].value;
