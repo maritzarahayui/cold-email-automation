@@ -121,7 +121,6 @@ const sendTextMailHandler = async (req, res) => {
         html: html,
       };
 
-      // Schedule the email to be sent at the specified time
       const scheduleDate = moment(scheduleTime);
       const delayMilliseconds = scheduleDate.diff(moment(), 'milliseconds');
       
@@ -136,7 +135,6 @@ const sendTextMailHandler = async (req, res) => {
           });
         }, delayMilliseconds);
       } else {
-        // Send immediately if the time is in the past or invalid
         sendTextMail(mailData, (err, info) => {
           if (err) {
             console.error('Error sending email:', err);
