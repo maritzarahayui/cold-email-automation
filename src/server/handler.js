@@ -72,7 +72,7 @@ const chatHandler = async (req, res) => {
       createdAt: createdAt
     };
 
-    await storeData(user.id, data);
+    await storeData('database', user.id, data);
 
     res.end();
 
@@ -126,20 +126,50 @@ const sendTextMailHandler = async (req, res) => {
       
       if (delayMilliseconds > 0) {
         setTimeout(() => {
-          sendTextMail(mailData, (err, info) => {
+          sendTextMail(mailData, async (err, info) => {
             if (err) {
               console.error('Error sending email:', err);
             } else {
               console.log('Email sent:', info.response);
+              const user = req.user;
+              const createdAt = new Date().toISOString();
+              const emailData = {
+                to: recipient,
+                subject: subject,
+                text: text,
+                html: html,
+                user: {
+                  id: user.id,
+                  email: user.emails[0].value,
+                  name: user.displayName,
+                },
+                createdAt: createdAt
+              };
+              await storeData('sent-emails', user.id, emailData);
             }
           });
         }, delayMilliseconds);
       } else {
-        sendTextMail(mailData, (err, info) => {
+        sendTextMail(mailData, async (err, info) => {
           if (err) {
             console.error('Error sending email:', err);
           } else {
             console.log('Email sent:', info.response);
+            const user = req.user;
+            const createdAt = new Date().toISOString();
+            const emailData = {
+              to: recipient,
+              subject: subject,
+              text: text,
+              html: html,
+              user: {
+                id: user.id,
+                email: user.emails[0].value,
+                name: user.displayName,
+              },
+              createdAt: createdAt
+            };
+            await storeData('emailCollection', user.id, emailData);
           }
         });
       }
