@@ -123,8 +123,8 @@
         <div class="d-flex" style="gap: 10px;">
           <input type="file" class="form-control" id="emailFile" accept=".csv" />
           <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas" />
+          <input type="datetime-local" class="form-control" id="scheduleTime" placeholder="Select date and time" required />
         </div>
-        
         <button type="submit" class="btn long-btn">Send Email</button>
       </form>
     </div>
@@ -142,7 +142,7 @@
       outputArea.value = "Generating email...";
       outputArea.disabled = true; // Disable textarea during generation
 
-      const response = await fetch("https://cold-email-automation-j6el7ykauq-et.a.run.app/chat", {
+      const response = await fetch("http://localhost:3000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,6 +181,7 @@
       event.preventDefault();
       const emailToInput = document.getElementById("emailTo").value;
       const emailFileInput = document.getElementById("emailFile").files[0];
+      const scheduleTimeInput = document.getElementById("scheduleTime").value;
       let text = document.getElementById("outputArea").value;
       let subjectLineEndIndex = text.indexOf("\n");
       let subjectLine = text.substring(0, subjectLineEndIndex).trim();
@@ -188,10 +189,11 @@
       text = text.substring(subjectLineEndIndex + 1).trim();
 
       const htmlContent = `
-        <div style="width: 80%; margin: 0 auto; text-align: left; font-family: Raleway; font-size: 16px;">
-          <div style="text-align: center;">
-            <img src="https://algo-network.vercel.app/logos/logo.png" alt="" style="max-width: 50%; height: auto;">
+        <div style="width: 100%; margin: 0 auto; text-align: left; font-family: Raleway; font-size: 16px;">
+          <div style="text-align: center; margin-bottom: 20px">
+            <img src="https://algo-network.vercel.app/logos/logo.png" alt="" style="max-width: 100%; max-height: 100px;">
           </div>
+          <div style="width:95%; margin:auto;">
           ${text.split('\n').map((line, index, array) => {
             if (index === 0) {
               return `<strong style="color: #172554; font-size: 24px;">${line}</strong>`;
@@ -200,32 +202,28 @@
             }
             return `<span>${line}</span>`;
           }).join('<br>')}
+          </div>
         </div>
-
-        <footer style="width: 80%; max-width: 800px; margin: 0 auto; text-align: center; font-family: Raleway; position: relative; background: #172554; padding: 20px 50px; display: flex; flex-direction: column; align-items: center;">
-          <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-            <ul style="display: flex; justify-content: center; align-items: center; padding: 0; list-style: none; margin: 0;">
-              <li style="margin: 0 10px;">
-                <a href="#" style="display: inline-block;">
-                  <img src="https://img.icons8.com/?size=100&id=3685&format=png&color=FFFFFF" alt="Website" style="width: 30px; height: 30px;">
+        
+        <footer style="width:auto;margin:25px auto;font-family:Raleway;background:#172554;padding: 30px 40px;text-align:center;border-radius: 5px;">
+          <table width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:1000px;margin:0 auto">
+            <tbody><tr>
+              <td style="text-align:left">
+                <a href="https://algo-network.vercel.app/#" style="display:inline-block;margin:0 10px">
+                  <img src="https://img.icons8.com/?size=100&amp;id=3685&amp;format=png&amp;color=FFFFFF" alt="Website" style="width:30px;vertical-align:middle">
                 </a>
-              </li>
-              <li style="margin: 0 10px;">
-                <a href="#" style="display: inline-block;">
-                  <img src="https://img.icons8.com/?size=100&id=447&format=png&color=FFFFFF" alt="LinkedIn" style="width: 30px; height: 30px;">
+                <a href="https://www.linkedin.com/company/algo-network/" style="display:inline-block;margin:0 10px">
+                  <img src="https://img.icons8.com/?size=100&amp;id=447&amp;format=png&amp;color=FFFFFF" alt="LinkedIn" style="width:30px;vertical-align:middle">
                 </a>
-              </li>
-              <li style="margin: 0 10px;">
-                <a href="#" style="display: inline-block;">
-                  <img src="https://img.icons8.com/?size=100&id=32292&format=png&color=FFFFFF" alt="Instagram" style="width: 30px; height: 30px;">
+                <a href="https://www.instagram.com/algonetwork" style="display:inline-block;margin:0 10px">
+                  <img src="https://img.icons8.com/?size=100&amp;id=32292&amp;format=png&amp;color=FFFFFF" alt="Instagram" style="width:30px;vertical-align:middle">
                 </a>
-              </li>
-            </ul>
-          </div>
-
-          <div style="margin-top: 20px;">
-            <p style="color: #fff; font-size: 1rem; font-weight: 300;">&copy;2024 Algo Network | All Rights Reserved</p>
-          </div>
+              </td>
+              <td style="text-align:right">
+                <p style="color:#fff;font-size:1rem;font-weight:300;margin:0">©2024 Algo Network | All Rights Reserved</p>
+              </td>
+            </tr>
+          </tbody></table>
         </footer>
       `;
 
@@ -237,18 +235,18 @@
         recipients = emailToInput.split(",").map(email => email.trim());
       }
 
-      const mailResponse = await fetch("https://cold-email-automation-j6el7ykauq-et.a.run.app/text-mail", {
+      const mailResponse = await fetch("http://localhost:3000/text-mail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ to: recipients, subject: subject, text: text, html: htmlContent }),
+        body: JSON.stringify({ to: recipients, subject: subject, text: text, html: htmlContent, scheduleTime: scheduleTimeInput }),
       });
 
       if (mailResponse.ok) {
-        alert("Email sent successfully!");
+        alert("Email scheduled successfully!");
       } else {
-        alert("Failed to send email.");
+        alert("Failed to schedule email.");
       }
     });
 
