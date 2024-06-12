@@ -110,6 +110,7 @@
 
   <div class="container d-flex justify-content-between">
     <div class="jumbotron mr-2">
+
       <form id="promptForm">
         <div class="d-flex">
           <input type="text" class="form-control" id="promptInput" placeholder="Enter the email's topic" required />
@@ -123,10 +124,11 @@
         <div class="d-flex" style="gap: 10px;">
           <input type="file" class="form-control" id="emailFile" accept=".csv" />
           <input type="text" class="form-control" id="emailTo" placeholder="Enter email addresses separated by commas" />
-          <input type="datetime-local" class="form-control" id="scheduleTime" placeholder="Select date and time" required />
+          <input type="datetime-local" class="form-control" id="scheduleTime" placeholder="Select date and time"/>
         </div>
         <button type="submit" class="btn long-btn">Send Email</button>
       </form>
+      
     </div>
   </div> 
 
@@ -182,6 +184,7 @@
       const emailToInput = document.getElementById("emailTo").value;
       const emailFileInput = document.getElementById("emailFile").files[0];
       const scheduleTimeInput = document.getElementById("scheduleTime").value;
+
       let text = document.getElementById("outputArea").value;
       let subjectLineEndIndex = text.indexOf("\n");
       let subjectLine = text.substring(0, subjectLineEndIndex).trim();
@@ -251,6 +254,7 @@
     });
 
   </script>
+  
 </body>
 
 </html>

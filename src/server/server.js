@@ -8,6 +8,7 @@ const routes = require("./routes");
 const { ensureAuthenticated } = require("../middleware/middleware");
 
 const app = express();
+app.use(express.static(path.join(__dirname, '../../public')));
 
 // Set up the view engine and views directory
 app.set("view engine", "ejs");
