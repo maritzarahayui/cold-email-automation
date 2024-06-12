@@ -13661,7 +13661,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
         font-weight: 400;
         display: inline-block;
         font-size: 0.813rem;
-        color: #2C2C2C; }
+        background-color: var(--rgba-secondary-1);
+        border-radius: 10px;
+        color: #000000; }
         .deznav .metismenu > li > a i {
           color: #96A0AF; }
         .deznav .metismenu > li > a svg {
@@ -14117,8 +14119,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 */
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
   font-size: 0.813rem;
-  padding: 0.75rem 1.5rem;
-  margin: 0px;
+  padding: 0.75rem 1.0625rem;
+  margin: 3px 10px;
   -webkit-transition: all 0.5s;
   -ms-transition: all 0.5s;
   transition: all 0.5s; }
