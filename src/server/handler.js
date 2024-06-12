@@ -72,7 +72,7 @@ const chatHandler = async (req, res) => {
       createdAt: createdAt
     };
 
-    await storeData('database', user.id, data);
+    await storeData('database', data);
 
     res.end();
 
@@ -145,7 +145,7 @@ const sendTextMailHandler = async (req, res) => {
                 },
                 createdAt: createdAt
               };
-              await storeData('sent-emails', user.id, emailData);
+              await storeData('sent-emails', emailData);
             }
           });
         }, delayMilliseconds);
@@ -169,7 +169,7 @@ const sendTextMailHandler = async (req, res) => {
               },
               createdAt: createdAt
             };
-            await storeData('emailCollection', user.id, emailData);
+            await storeData('sent-emails', emailData);
           }
         });
       }
@@ -181,6 +181,7 @@ const sendTextMailHandler = async (req, res) => {
     res.status(500).send({ error: "Failed to schedule mail :(" });
   }
 };
+
 
 const sendAttachmentsMailHandler = (req, res) => {
   const { to, subject, text } = req.body;
