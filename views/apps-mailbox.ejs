@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="">
+	<meta name="author" content="">
+	<meta name="robots" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="W3crm:Customer Relationship Management Admin Bootstrap 5 Template">
+	<meta property="og:title" content="W3crm:Customer Relationship Management Admin Bootstrap 5 Template">
+	<meta property="og:description" content="W3crm:Customer Relationship Management Admin Bootstrap 5 Template">
+	<meta property="og:image" content="https://w3crm.dexignzone.com/xhtml/social-image.png">
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- PAGE TITLE HERE -->
+	<title>Email</title>
+	
+	<!-- FAVICONS ICON -->
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+	
+	<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+	<link href="vendor/dropzone/dist/dropzone.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
+	
+	<!-- Style css -->
+   <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<style>
+    .deznav .metismenu > li > a {
+        font-weight: 400;
+        display: inline-block;
+        font-size: 0.813rem;
+        background-color: var(--rgba-secondary-1);
+        border-radius: 10px;
+        color: #000000; }
+
+    .deznav .metismenu > li:hover > a, .deznav .metismenu > li:focus > a {
+        color: black; 
+        text-decoration: none; }
+
+</style>
+
+<body>
+
+    <!-- PRELOADER START -->
+    <div id="preloader">
+		<div class="lds-ripple">
+			<div></div>
+			<div></div>
+		</div>
+    </div>
+    <!-- PRELOADER END -->
+
+    <!-- MAIN WRAPPER -->
+    <div id="main-wrapper">
+
+        <!-- HEADER START -->
+        <div class="nav-header">
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span>
+					<span class="line"></span>
+					<span class="line"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-end">                        
+                        <ul class="navbar-nav header-right">
+							<li class="nav-item dropdown notification_dropdown">
+                                <a class="nav-link bell dz-fullscreen"  href="javascript:void(0);">
+                                    <svg id="icon-full" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" style="stroke-dasharray: 37, 57; stroke-dashoffset: 0;"></path></svg>
+                                    <svg id="icon-minimize" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="A098AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" style="stroke-dasharray: 37, 57; stroke-dashoffset: 0;"></path></svg>
+                                </a>
+							</li>	
+                        </ul>
+                    </div>
+				</nav>
+			</div>
+		</div>
+        <!-- HEADER END -->
+
+        <div class="deznav">
+            <div class="deznav-scroll">
+				<ul class="metismenu" id="menu">
+					<li><a href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M10.5346 2.55658H7.1072C4.28845 2.55658 2.52112 4.55216 2.52112 7.37733V14.9985C2.52112 17.8237 4.2802 19.8192 7.1072 19.8192H15.1959C18.0238 19.8192 19.7829 17.8237 19.7829 14.9985V11.3062" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M8.09214 10.0108L14.9424 3.16057C15.7958 2.30807 17.1791 2.30807 18.0325 3.16057L19.1481 4.27615C20.0015 5.12957 20.0015 6.51374 19.1481 7.36624L12.2648 14.2495C11.8917 14.6226 11.3857 14.8325 10.8577 14.8325H7.42389L7.51006 11.3675C7.52289 10.8578 7.73097 10.372 8.09214 10.0108Z" stroke-width="2" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M13.9014 4.21895L18.0869 8.40445" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>	
+						<span class="nav-text">Compose Email</span>
+						</a>
+					</li>
+                    <li><a href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.5 7.49999L10 1.66666L17.5 7.49999V16.6667C17.5 17.1087 17.3244 17.5326 17.0118 17.8452C16.6993 18.1577 16.2754 18.3333 15.8333 18.3333H4.16667C3.72464 18.3333 3.30072 18.1577 2.98816 17.8452C2.67559 17.5326 2.5 17.1087 2.5 16.6667V7.49999Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M7.5 18.3333V10H12.5V18.3333" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>	
+						<span class="nav-text">Dashboard</span>
+						</a>
+					</li>
+                    <li><a href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.9028 8.85114L13.4596 12.4642C12.6201 13.1302 11.4389 13.1302 10.5994 12.4642L6.11865 8.85114" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16.9089 21C19.9502 21.0084 22 18.5095 22 15.4384V8.57001C22 5.49883 19.9502 3 16.9089 3H7.09114C4.04979 3 2 5.49883 2 8.57001V15.4384C2 18.5095 4.04979 21.0084 7.09114 21H16.9089Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+						</div>	
+						<span class="nav-text">History</span>
+						</a>
+					</li>
+                    <li><a href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <img src="images/iconly/light/Send.svg"/>
+
+						</div>	
+						<span class="nav-text">Sent</span>
+						</a>
+					</li>
+                    <li><a href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.25 12.0005C21.25 17.1095 17.109 21.2505 12 21.2505C6.891 21.2505 2.75 17.1095 2.75 12.0005C2.75 6.89149 6.891 2.75049 12 2.75049C17.109 2.75049 21.25 6.89149 21.25 12.0005Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.4316 14.9429L11.6616 12.6939V7.84686" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+						</div>	
+						<span class="nav-text">Scheduled</span>
+						</a>
+					</li>
+                    <li><a href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.5 7.49999L10 1.66666L17.5 7.49999V16.6667C17.5 17.1087 17.3244 17.5326 17.0118 17.8452C16.6993 18.1577 16.2754 18.3333 15.8333 18.3333H4.16667C3.72464 18.3333 3.30072 18.1577 2.98816 17.8452C2.67559 17.5326 2.5 17.1087 2.5 16.6667V7.49999Z" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M7.5 18.3333V10H12.5V18.3333" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>	
+						<span class="nav-text">Profile</span>
+						</a>
+					</li>
+                </ul>
+			</div>
+        </div>	
+		
+        <!-- CONTENT START -->
+        <div class="content-body">
+            <!-- row -->
+			<!-- <div class="container-fluid p-0"> -->
+				<!-- <div class="row gx-0"> -->
+                    <!-- <div class="col-lg-12"> -->
+                        <div class="card mb-0 border-0 bg-white" style="min-height: 100vh; padding-inline: 30px;">
+                            <!-- <div class="card-body"> -->
+								<!-- <div class="row gx-0"> -->
+
+									<!-- column
+									<div class="col-xl-2 col-xxl-3 col-lg-3 email-left-body">
+										<div class="email-left-box dz-scroll pt-3 ps-0" id="email-left">
+											<div class="p-0">
+												<a href="email-compose.html" class="btn text-white btn-block"><i class="fa-solid fa-plus me-2"></i>Compose Email</a>
+											</div>
+											<div class="mail-list rounded ">
+												<a href="email-inbox.html" class="list-group-item active"><i class="fa-regular fa-envelope align-middle"></i>Inbox <span class="badge badge-purple badge-sm float-end rounded">2</span> </a>
+												<a href="javascript:void(0);" class="list-group-item"><i class="fa-regular fa-paper-plane align-middle"></i>Sent</a> 	
+												<a href="javascript:void(0);" class="list-group-item"><i class="fa-regular fa-star align-middle"></i>Favorite </a>
+												<a href="javascript:void(0);" class="list-group-item"><i class="fa-regular fa-file align-middle"></i>Draft</a>
+												<a href="javascript:void(0);" class="list-group-item"><i class="fa-regular fa-clock align-middle"></i> Scheduled</a>			
+											</div>
+										</div>
+									</div> -->
+                                    
+									<!-- /column -->
+									<!-- <div class="col-xl-10 col-xxl-9"> -->
+										<!-- <div class="email-right-box ms-0 "> -->
+											<div class="compose-wrapper mt-3 " id="compose-content">
+												<div class="compose-content">
+                                                    <h3 class="mb-4">Generate Email Draft</h3>
+
+                                                    <form id="promptForm">
+                                                        <h5 class="mb-3">Content's topic</h5>
+														<div class="d-flex mb-3">
+															<input type="text" class="form-control bg-transparent" id="promptInput" placeholder=" e.g. new choco crunchy cookies" style="height:45px; margin-right:10px;" required>
+                                                            <button type="submit" class="btn btn-warning">Generate</button>
+														</div>
+													</form>
+
+                                                    <div class="my-4">
+                                                        <textarea id="outputArea" class="textarea_editor form-control bg-transparent" rows="5" style="min-height: 150px; max-height: 500px;"
+                                                            placeholder="Your generated email will appear here ..." disabled></textarea>
+                                                    </div>
+
+                                                    <form id="sendMailForm">
+                                                        <h5 class="mt-4 mb-3">Send to</h5>
+														<div class="mb-3">
+															<input type="text" class="form-control mb-3" id="emailTo" placeholder=" e.g. algonetwork1@gmail.com, algonetwork2@gmail.com, ..." style="height:45px;">
+                                                            <input type="file" class="form-control" id="emailFile" accept=".csv"/>
+														</div>
+
+                                                        <h5 class="mt-4 mb-3">Schedule send (optional)</h5>
+                                                        <input type="datetime-local" class="form-control" id="scheduleTime" placeholder="Select date and time" style="height:45px;"/>                                                        
+												</div>
+                                                        <div class="text-end mt-4 mb-3">
+                                                            <button class="btn btn-danger btn-sl-sm" type="button" id="discardBtn" style="margin-right:10px;"><span class="me-2"><i class="fa fa-times"></i></span>Discard</button>
+                                                            <button class="btn btn-warning btn-sl-sm" type="submit"><span class="me-2"><i class="fa fa-paper-plane"></i></span>Send</button>
+                                                        </div>
+                                                    </form>
+											</div>
+										<!-- </div> -->
+									<!-- </div> -->
+
+								<!-- </div> -->
+                            <!-- </div> -->
+                        </div>
+                    <!-- </div> -->
+                <!-- </div> -->
+            <!-- </div> -->
+        </div>
+	</div>
+
+    <!-- EXTERNAL SCRIPTS -->
+    <script src="vendor/global/global.min.js"></script>
+	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+	<script src="vendor/dropzone/dist/dropzone.js"></script>
+    <script src="js/custom.js"></script>
+	<script src="js/deznav-init.js"></script>
+    
+    <!-- INTERNAL SCRIPTS -->
+    <script>
+        $('#discardBtn').on('click', function() {
+            $('#compose-content form').each(function() { this.reset(); });
+            $('#outputArea').val('');
+            $('#outputArea').on('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+
+        $(document).ready(function() {
+            const now = new Date();
+            const offset = now.getTimezoneOffset();
+            const localDateTime = new Date(now.getTime() - (offset * 60 * 1000));
+            const formattedDateTime = localDateTime.toISOString().slice(0, 16);
+            document.getElementById('scheduleTime').value = formattedDateTime;
+        });
+
+        var form = document.getElementById("promptForm");
+
+        form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        var prompt = document.getElementById("promptInput").value;
+        var outputArea = document.getElementById("outputArea");
+
+        outputArea.value = "Generating email...";
+        outputArea.disabled = true; // Disable textarea during generation
+
+        const response = await fetch("http://localhost:3000/chat", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ prompt: prompt }),
+        });
+
+        const decoder = new TextDecoder();
+        const reader = response.body.getReader();
+        let chunks = "";
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks += decoder.decode(value);
+            outputArea.value = chunks;
+        }
+        outputArea.disabled = false; // Enable textarea after generation
+        });
+
+        const toggleEmailToRequired = () => {
+        if (emailFileInput.files.length > 0) {
+            emailToInput.removeAttribute("required");
+        } else {
+            emailToInput.setAttribute("required", "required");
+        }
+        };
+
+        const emailToInput = document.getElementById("emailTo");
+        const emailFileInput = document.getElementById("emailFile");
+
+        emailFileInput.addEventListener("change", toggleEmailToRequired);
+        toggleEmailToRequired();
+
+        sendMailForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const emailToInput = document.getElementById("emailTo").value;
+        const emailFileInput = document.getElementById("emailFile").files[0];
+        const scheduleTimeInput = document.getElementById("scheduleTime").value;
+
+        let text = document.getElementById("outputArea").value;
+        let subjectLineEndIndex = text.indexOf("\n");
+        let subjectLine = text.substring(0, subjectLineEndIndex).trim();
+        let subject = subjectLine.startsWith("Subject:") ? subjectLine.substring(8).trim() : "No Subject";      
+        text = text.substring(subjectLineEndIndex + 1).trim();
+
+        const htmlContent = `
+            <div style="width: 100%; margin: 0 auto; text-align: left; font-family: Raleway; font-size: 16px;">
+            <div style="text-align: center; margin-bottom: 20px">
+                <img src="https://algo-network.vercel.app/logos/logo.png" alt="" style="max-width: 100%; max-height: 100px;">
+            </div>
+            <div style="width:95%; margin:auto;">
+            ${text.split('\n').map((line, index, array) => {
+                if (index === 0) {
+                return `<strong style="color: #172554; font-size: 24px;">${line}</strong>`;
+                } else if (index === array.length - 1) {
+                return `<a href="https://algo-network.vercel.app/" style="color: #172554;">${line}</a>`;
+                }
+                return `<span>${line}</span>`;
+            }).join('<br>')}
+            </div>
+            </div>
+            
+            <footer style="width:auto;margin:25px auto;font-family:Raleway;background:#172554;padding: 30px 40px;text-align:center;border-radius: 5px;">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:1000px;margin:0 auto">
+                <tbody><tr>
+                <td style="text-align:left">
+                    <a href="https://algo-network.vercel.app/#" style="display:inline-block;margin:0 10px">
+                    <img src="https://img.icons8.com/?size=100&amp;id=3685&amp;format=png&amp;color=FFFFFF" alt="Website" style="width:30px;vertical-align:middle">
+                    </a>
+                    <a href="https://www.linkedin.com/company/algo-network/" style="display:inline-block;margin:0 10px">
+                    <img src="https://img.icons8.com/?size=100&amp;id=447&amp;format=png&amp;color=FFFFFF" alt="LinkedIn" style="width:30px;vertical-align:middle">
+                    </a>
+                    <a href="https://www.instagram.com/algonetwork" style="display:inline-block;margin:0 10px">
+                    <img src="https://img.icons8.com/?size=100&amp;id=32292&amp;format=png&amp;color=FFFFFF" alt="Instagram" style="width:30px;vertical-align:middle">
+                    </a>
+                </td>
+                <td style="text-align:right">
+                    <p style="color:#fff;font-size:1rem;font-weight:300;margin:0">©2024 Algo Network | All Rights Reserved</p>
+                </td>
+                </tr>
+            </tbody></table>
+            </footer>
+        `;
+
+        let recipients = [];
+        if (emailFileInput) {
+            const fileContent = await emailFileInput.text();
+            recipients = fileContent.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+        } else {
+            recipients = emailToInput.split(",").map(email => email.trim());
+        }
+
+        const mailResponse = await fetch("http://localhost:3000/text-mail", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ to: recipients, subject: subject, text: text, html: htmlContent, scheduleTime: scheduleTimeInput }),
+        });
+
+        if (mailResponse.ok) {
+            alert("Email scheduled successfully!");
+        } else {
+            alert("Failed to schedule email.");
+        }
+        });
+
+    </script>
+	
+</body>
+</html>
