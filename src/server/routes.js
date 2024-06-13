@@ -48,6 +48,10 @@ router.get("/chat", ensureAuthenticated, (req, res) => {
   res.render("apps-mailbox");
 });
 
+router.get("/history", ensureAuthenticated, (req, res) => {
+  res.render("email-history");
+});
+
 router.get("/mail", (req, res) => {
   res.render("apps-mailbox");
 });

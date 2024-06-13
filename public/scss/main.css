@@ -19386,7 +19386,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     .email-list .message .col-mail-2 {
       position: absolute;
       top: 0;
-      left: 5.625rem;
+      left: 40px;
       right: 0;
       bottom: 0; }
       .email-list .message .col-mail-2 .subject {
