@@ -17,13 +17,13 @@
 	<title>Email</title>
 	
 	<!-- FAVICONS ICON -->	
-	<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
-	<link href="vendor/dropzone/dist/dropzone.css" rel="stylesheet">
+	<link href="/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+	<link href="/vendor/dropzone/dist/dropzone.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
 	
 	<!-- Style css -->
-   <link href="css/style.css" rel="stylesheet">
+   <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -157,16 +157,16 @@
             <div class="card mb-0 border-0 bg-white" style="min-height: 100vh; padding-inline: 30px;">
                 <div class="compose-wrapper mt-4 " id="compose-content">
                     <div class="compose-content">
-                        <h3 class="mb-4">Subject Emails e.g. Discount Happy Friday for our 100 First Buyers</h3>
+                        <h3 class="mb-4"><%= email.subject %></h3>
 
                         <div class="d-flex mb-3">
                             <h5 style="margin-right: 15px;align-content: center;width: 70px;">To</h5>
-                            <input type="text" class="form-control bg-transparent" id="promptInput" placeholder=" e.g. maritza.rahayu@gmail.com" style="margin-right:10px;" disabled>
+                            <input type="text" class="form-control bg-transparent" id="promptInput" placeholder=" <%= email.to %>" style="margin-right:10px;" disabled>
                         </div>
 
                         <div class="d-flex mb-3">
                             <h5 style="margin-right: 15px;align-content: center;width: 70px;">Sent on</h5>
-                            <input type="text" class="form-control bg-transparent" id="promptInput" placeholder=" e.g. 11 Jun 2023, 11:59" style="margin-right:10px;" disabled>
+                            <input type="text" class="form-control bg-transparent" id="promptInput" placeholder=" <%= email.createdAt %>" style="margin-right:10px;" disabled>
                         </div>
 
                         <div class="d-flex mb-3">
@@ -174,73 +174,20 @@
                         </div>
                         
                         <!-- INSERT HTML CONTENT FROM EMAIL DRAFT -->
-                        <div id="emailContent"></div>
+                        <div id="emailContent"><%- email.html %></div>
                 </div>
             </div>
         </div>
 	</div>
 
     <!-- EXTERNAL SCRIPTS -->
-    <script src="vendor/global/global.min.js"></script>
-	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-	<script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-	<script src="vendor/dropzone/dist/dropzone.js"></script>
-    <script src="js/custom.js"></script>
-	<script src="js/deznav-init.js"></script>
+    <script src="/vendor/global/global.min.js"></script>
+	<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+	<script src="/vendor/dropzone/dist/dropzone.js"></script>
+    <script src="/js/custom.js"></script>
+	<script src="/js/deznav-init.js"></script>
     
-    <!-- INTERNAL SCRIPTS -->
-    <script>
-        $(document).ready(function() {
-            // GET THE HTML CONTENT FROM GET REQUEST, PUT IT TO THIS CONST
-            const htmlContent = `
-                <div style="width: 100%; margin: 0 auto; text-align: left; font-family: Raleway; font-size: 16px;">
-                <div style="text-align: center; margin-bottom: 20px">
-                    <img src="https://algo-network.vercel.app/logos/logo.png" alt="" style="max-width: 100%; max-height: 100px;">
-                </div>
-                <div style="width:95%; margin:auto;">
-                We are thrilled to announce the launch of the latest mobile phones at Algo Network! Our new collection features cutting-edge technology and stylish designs that are sure to impress you.
-
-                Whether you are looking for a sleek and powerful smartphone for your everyday needs or a versatile device for both work and play, we have a wide range of options to suit your preferences. With top-notch camera quality, long-lasting battery life, and innovative features, our new mobile phones are designed to enhance your mobile experience.
-
-                Visit our store or browse our online catalog to explore the new collection and find the perfect mobile phone that fits your lifestyle. Don't miss out on the special offers and discounts available for a limited time only!
-
-                If you have any questions or need assistance in selecting the right mobile phone for you, our experienced team is here to help. Contact us today to learn more about our latest offerings and personalized recommendations.
-
-                Thank you for choosing Algo Network as your trusted mobile phone provider. We look forward to serving you with the best in mobile technology!
-
-                Best regards,
-
-                [Your Name]
-                Algo Network
-                </div>
-                </div>
-                
-                <footer style="width:auto;margin:25px auto;font-family:Raleway;background:#172554;padding: 30px 40px;text-align:center;border-radius: 5px;">
-                <table width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:1000px;margin:0 auto">
-                    <tbody><tr>
-                    <td style="text-align:left">
-                        <a href="https://algo-network.vercel.app/#" style="display:inline-block;margin:0 10px">
-                        <img src="https://img.icons8.com/?size=100&amp;id=3685&amp;format=png&amp;color=FFFFFF" alt="Website" style="width:30px;vertical-align:middle">
-                        </a>
-                        <a href="https://www.linkedin.com/company/algo-network/" style="display:inline-block;margin:0 10px">
-                        <img src="https://img.icons8.com/?size=100&amp;id=447&amp;format=png&amp;color=FFFFFF" alt="LinkedIn" style="width:30px;vertical-align:middle">
-                        </a>
-                        <a href="https://www.instagram.com/algonetwork" style="display:inline-block;margin:0 10px">
-                        <img src="https://img.icons8.com/?size=100&amp;id=32292&amp;format=png&amp;color=FFFFFF" alt="Instagram" style="width:30px;vertical-align:middle">
-                        </a>
-                    </td>
-                    <td style="text-align:right">
-                        <p style="color:#fff;font-size:1rem;font-weight:300;margin:0">©2024 Algo Network | All Rights Reserved</p>
-                    </td>
-                    </tr>
-                </tbody></table>
-                </footer>
-            `;  
-
-            // Insert HTML content into the specified part
-            $("#emailContent").html(htmlContent);
-        });
-    </script>
 	
 </body>
 </html>

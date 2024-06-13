@@ -17,13 +17,13 @@
 	<title>Email</title>
 	
 	<!-- FAVICONS ICON -->	
-	<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
-	<link href="vendor/dropzone/dist/dropzone.css" rel="stylesheet">
+	<link href="/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+	<link href="/vendor/dropzone/dist/dropzone.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
 	
 	<!-- Style css -->
-   <link href="css/style.css" rel="stylesheet">
+   <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -190,10 +190,21 @@
                             <% if (emails && emails.length > 0) { %>
                                 <% emails.forEach(email => { %>
                                         <div class="message">
-                                            <a href="/detail" class="col-mail col-mail-2">
+                                            <a href="/detail/<%= email.id %>" class="col-mail col-mail-2">
                                                 <div class="hader" style="color: #FF9F00"><%= email.to %></div>
                                                 <div class="subject"><%= email.subject %></div>
-                                                <div class="date" style="color: #FF9F00"><%= email.createdAt %></div>
+
+                                                <%
+                                                    const createdAt = new Date(email.createdAt);
+                                                    const addLeadingZero = (number) => {
+                                                    return number < 10 ? `0${number}` : number;
+                                                    }
+                                                    const formattedDate = `${createdAt.getDate()}-${addLeadingZero(createdAt.getMonth() + 1)}-${createdAt.getFullYear()}`;
+                                                    const formattedTime = `${addLeadingZero(createdAt.getHours())}:${addLeadingZero(createdAt.getMinutes())}`;
+                                                    const formattedDateTime = `${formattedDate} ${formattedTime}`;
+                                                %>
+
+                                                <div class="date" style="color: #FF9F00"><%= formattedDateTime %></div>
                                             </a>
                                         </div>
                                 <% }); %>
@@ -206,21 +217,21 @@
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                             <div class="email-list dz-scroll" id="emails1">
                                 <div class="message">
-                                        <a href="/detail" class="col-mail col-mail-2">
+                                        <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
                                             <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
                                             <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                             <div class="date" style="color: #FF9F00">11:43 AM</div>
                                         </a>
                                 </div>
                                 <div class="message">
-                                    <a href="/detail" class="col-mail col-mail-2">
+                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
                                         <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
                                         <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                         <div class="date" style="color: #FF9F00">11:43 AM</div>
                                     </a>
                                 </div>
                                 <div class="message">
-                                    <a href="/detail" class="col-mail col-mail-2">
+                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
                                         <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
                                         <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                         <div class="date" style="color: #FF9F00">11:43 AM</div>
@@ -232,21 +243,21 @@
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="email-list dz-scroll" id="emails">
                                 <div class="message">
-                                        <a href="/detail" class="col-mail col-mail-2">
+                                        <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
                                             <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
                                             <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                             <div class="date" style="color: #FF9F00">11:43 AM</div>
                                         </a>
                                 </div>
                                 <div class="message">
-                                    <a href="/detail" class="col-mail col-mail-2">
+                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
                                         <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
                                         <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                         <div class="date" style="color: #FF9F00">11:43 AM</div>
                                     </a>
                                 </div>
                                 <div class="message">
-                                    <a href="/detail" class="col-mail col-mail-2">
+                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
                                         <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
                                         <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                         <div class="date" style="color: #FF9F00">11:43 AM</div>
@@ -263,12 +274,12 @@
 	</div>
 
     <!-- EXTERNAL SCRIPTS -->
-    <script src="vendor/global/global.min.js"></script>
-	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-	<script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-	<script src="vendor/dropzone/dist/dropzone.js"></script>
-    <script src="js/custom.js"></script>
-	<script src="js/deznav-init.js"></script>
+    <script src="/vendor/global/global.min.js"></script>
+	<script src="/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<script src="/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+	<script src="/vendor/dropzone/dist/dropzone.js"></script>
+    <script src="/js/custom.js"></script>
+	<script src="/js/deznav-init.js"></script>
     
     <!-- INTERNAL SCRIPTS -->
 	

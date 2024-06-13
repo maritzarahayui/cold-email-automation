@@ -23482,7 +23482,7 @@ input#checkAll.form-check-input:checked {
         right: 5.5rem;
         font-weight: 400;
         color: var(--secondary);
-        margin: 0 220px;
+        margin: 0 260px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap; }

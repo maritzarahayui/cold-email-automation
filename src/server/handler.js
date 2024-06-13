@@ -214,10 +214,30 @@ const getAllSentEmails = async (req, res) => {
     snapshot.forEach(doc => {
       emails.push({ id: doc.id, ...doc.data() });
     });
+    console.log("EMAILS: ", emails)
     res.render('email-history', { emails }); // Pass emails to the template
   } catch (error) {
     console.error("Failed to get emails due to: ", error);
     res.status(500).send({ error: "Failed to get emails :(" });
+  }
+};
+
+const getEmailById = async (req, res) => {
+  try {
+    const emailId = req.params.id; 
+    const doc = await db.collection('sent-emails').doc(emailId).get();
+
+    if (!doc.exists) {
+      return res.status(404).send({ error: 'Email not found' });
+    }
+
+    const emailData = { id: doc.id, ...doc.data() };
+    console.log("EMAIL: ", emailData);
+    res.render('email-detail', { email: emailData }); // Kirim data email ke template
+
+  } catch (error) {
+    console.error("Failed to get email due to: ", error);
+    res.status(500).send({ error: "Failed to get email :(" });
   }
 };
 
@@ -226,5 +246,6 @@ module.exports = {
   sendTextMailHandler,
   sendAttachmentsMailHandler,
   getAllSentEmails,
+  getEmailById,
   userProfile,
 };
