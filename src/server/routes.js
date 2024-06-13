@@ -52,6 +52,10 @@ router.get("/history", ensureAuthenticated, (req, res) => {
   res.render("email-history");
 });
 
+router.get("/detail", ensureAuthenticated, (req, res) => {
+  res.render("email-detail");
+});
+
 router.get("/mail", (req, res) => {
   res.render("apps-mailbox");
 });
