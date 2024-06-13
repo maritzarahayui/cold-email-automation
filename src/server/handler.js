@@ -10,8 +10,8 @@ let userProfile;
 
 const chatHandler = async (req, res) => {
   try {
-    const { prompt } = req.body;
-    const promptText = `Buatkan sebuah template email untuk customer tentang ${prompt}. Berikan juga caption di akhir yang menampilkan salam penutup dari Algo Network`;
+    const { prompt, language } = req.body;
+    const promptText = `Buatkan sebuah template email untuk customer tentang ${prompt} dengan bahasa ${language}. Berikan juga caption di akhir yang menampilkan salam penutup dari Algo Network`;
 
     const apiResponse = await fetch(
       "https://api.openai.com/v1/chat/completions",

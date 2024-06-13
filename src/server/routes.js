@@ -39,26 +39,20 @@ router.get(
         if (err) {
           return next(err);
         }
-        return res.redirect("/chat");
+        return res.redirect("/mail");
       });
     })(req, res, next);
   }
 );
 
-router.get("/chat", ensureAuthenticated, (req, res) => {
-  res.render("apps-mailbox");
+router.get("/mail", ensureAuthenticated, (req, res) => {
+  res.render("email-compose");
 });
 
-// Use getAllSentEmails function to get all sent emails and render to email-history page
 router.get("/history", ensureAuthenticated, getAllSentEmails);
-
 router.get("/detail/:id", ensureAuthenticated, getEmailById);
 
-router.get("/mail", (req, res) => {
-  res.render("apps-mailbox");
-});
-
-router.post("/chat", chatHandler);
+router.post("/mail", chatHandler);
 router.post("/text-mail", sendTextMailHandler);
 router.post("/attachments-mail", sendAttachmentsMailHandler);
 

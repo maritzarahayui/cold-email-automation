@@ -144,7 +144,7 @@
       outputArea.value = "Generating email...";
       outputArea.disabled = true; // Disable textarea during generation
 
-      const response = await fetch("http://localhost:3000/chat", {
+      const response = await fetch("http://localhost:3000/mail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
