@@ -45,8 +45,21 @@ router.get(
 );
 
 router.get("/chat", ensureAuthenticated, (req, res) => {
-  res.render("chat");
+  res.render("apps-mailbox");
 });
+
+router.get("/history", ensureAuthenticated, (req, res) => {
+  res.render("email-history");
+});
+
+router.get("/detail", ensureAuthenticated, (req, res) => {
+  res.render("email-detail");
+});
+
+router.get("/mail", (req, res) => {
+  res.render("apps-mailbox");
+});
+
 router.post("/chat", chatHandler);
 router.post("/text-mail", sendTextMailHandler);
 router.post("/attachments-mail", sendAttachmentsMailHandler);

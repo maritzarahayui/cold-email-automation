@@ -23472,7 +23472,7 @@ input#checkAll.form-check-input:checked {
     .email-list .message .col-mail-2 {
       position: absolute;
       top: 0;
-      left: 5.625rem;
+      left: 35px;
       right: 0;
       bottom: 0; }
       .email-list .message .col-mail-2 .subject {
@@ -23518,7 +23518,7 @@ input#checkAll.form-check-input:checked {
     .email-list .message .hader {
       font-size: 0.938rem;
       font-weight: 400;
-      padding: 0 1.25rem; }
+      padding: 0; }
 
 .email-checkbox {
   cursor: pointer;

@@ -1,12 +1,12 @@
 const { Firestore } = require('@google-cloud/firestore');
 const db = new Firestore();
 
-async function storeData(id, data) {
-    console.log("Storing data to Firestore:", id, data);
+async function storeData(collectionName, data) {
+    console.log(`Storing data to Firestore in collection ${collectionName}:`, data);
     
-    const database = db.collection('database');
-    const result = await database.doc(id).set(data);
-    console.log("Firestore write result:", result);
+    const database = db.collection(collectionName);
+    const result = await database.add(data);
+    console.log("Firestore write result:", result.id);
 
     return result;
 }
