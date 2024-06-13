@@ -3,6 +3,7 @@ const passport = require("passport");
 const { chatHandler, sendTextMailHandler, sendAttachmentsMailHandler } = require("./handler");
 const { ensureAuthenticated } = require("../middleware/middleware");
 const { userProfile } = require("./passportConfig");
+const { getAllSentEmails } = require('./handler');
 
 const router = express.Router();
 
@@ -48,9 +49,8 @@ router.get("/chat", ensureAuthenticated, (req, res) => {
   res.render("apps-mailbox");
 });
 
-router.get("/history", ensureAuthenticated, (req, res) => {
-  res.render("email-history");
-});
+// Use getAllSentEmails function to get all sent emails and render to email-history page
+router.get("/history", ensureAuthenticated, getAllSentEmails);
 
 router.get("/detail", ensureAuthenticated, (req, res) => {
   res.render("email-detail");
@@ -65,3 +65,4 @@ router.post("/text-mail", sendTextMailHandler);
 router.post("/attachments-mail", sendAttachmentsMailHandler);
 
 module.exports = router;
+
