@@ -175,9 +175,25 @@ const sendAttachmentsMailHandler = (req, res) => {
   });
 };
 
+const getAllSentEmails = async (req, res) => {
+  try {
+    const user = req.user;
+    const snapshot = await db.collection('sent-emails').where('user.id', '==', user.id).get();
+    const emails = [];
+    snapshot.forEach(doc => {
+      emails.push({ id: doc.id, ...doc.data() });
+    });
+    res.render('email-history', { emails }); // Pass emails to the template
+  } catch (error) {
+    console.error("Failed to get emails due to: ", error);
+    res.status(500).send({ error: "Failed to get emails :(" });
+  }
+};
+
 module.exports = {
   chatHandler,
   sendTextMailHandler,
   sendAttachmentsMailHandler,
+  getAllSentEmails,
   userProfile,
 };
