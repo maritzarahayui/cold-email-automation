@@ -195,12 +195,12 @@
                                                 <div class="subject"><%= email.subject %></div>
 
                                                 <%
-                                                    const createdAt = new Date(email.createdAt);
+                                                    const sentAt = new Date(email.sentAt);
                                                     const addLeadingZero = (number) => {
                                                     return number < 10 ? `0${number}` : number;
                                                     }
-                                                    const formattedDate = `${createdAt.getDate()}-${addLeadingZero(createdAt.getMonth() + 1)}-${createdAt.getFullYear()}`;
-                                                    const formattedTime = `${addLeadingZero(createdAt.getHours())}:${addLeadingZero(createdAt.getMinutes())}`;
+                                                    const formattedDate = `${sentAt.getDate()}-${addLeadingZero(sentAt.getMonth() + 1)}-${sentAt.getFullYear()}`;
+                                                    const formattedTime = `${addLeadingZero(sentAt.getHours())}:${addLeadingZero(sentAt.getMinutes())}`;
                                                     const formattedDateTime = `${formattedDate} ${formattedTime}`;
                                                 %>
 
@@ -217,20 +217,20 @@
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                             <div class="email-list dz-scroll" id="emails1">
                                 <!-- Dynamic emails from the handler function -->
-                            <% if (emails && emails.length > 0) { %>
-                                <% emails.forEach(email => { %>
+                            <% if (sentEmails && sentEmails.length > 0) { %>
+                                <% sentEmails.forEach(email => { %>
                                         <div class="message">
                                             <a href="/detail/<%= email.id %>" class="col-mail col-mail-2">
                                                 <div class="hader" style="color: #FF9F00"><%= email.to %></div>
                                                 <div class="subject"><%= email.subject %></div>
 
                                                 <%
-                                                    const createdAt = new Date(email.createdAt);
+                                                    const sentAt = new Date(email.sentAt);
                                                     const addLeadingZero = (number) => {
                                                     return number < 10 ? `0${number}` : number;
                                                     }
-                                                    const formattedDate = `${createdAt.getDate()}-${addLeadingZero(createdAt.getMonth() + 1)}-${createdAt.getFullYear()}`;
-                                                    const formattedTime = `${addLeadingZero(createdAt.getHours())}:${addLeadingZero(createdAt.getMinutes())}`;
+                                                    const formattedDate = `${sentAt.getDate()}-${addLeadingZero(sentAt.getMonth() + 1)}-${sentAt.getFullYear()}`;
+                                                    const formattedTime = `${addLeadingZero(sentAt.getHours())}:${addLeadingZero(sentAt.getMinutes())}`;
                                                     const formattedDateTime = `${formattedDate} ${formattedTime}`;
                                                 %>
 
@@ -247,20 +247,20 @@
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="email-list dz-scroll" id="emails">
                                 <!-- Dynamic emails from the handler function -->
-                            <% if (emails && emails.length > 0) { %>
-                                <% emails.forEach(email => { %>
+                            <% if (scheduledEmails && scheduledEmails.length > 0) { %>
+                                <% scheduledEmails.forEach(email => { %>
                                         <div class="message">
                                             <a href="/detail/<%= email.id %>" class="col-mail col-mail-2">
                                                 <div class="hader" style="color: #FF9F00"><%= email.to %></div>
                                                 <div class="subject"><%= email.subject %></div>
 
                                                 <%
-                                                    const createdAt = new Date(email.createdAt);
+                                                    const sentAt = new Date(email.sentAt);
                                                     const addLeadingZero = (number) => {
                                                     return number < 10 ? `0${number}` : number;
                                                     }
-                                                    const formattedDate = `${createdAt.getDate()}-${addLeadingZero(createdAt.getMonth() + 1)}-${createdAt.getFullYear()}`;
-                                                    const formattedTime = `${addLeadingZero(createdAt.getHours())}:${addLeadingZero(createdAt.getMinutes())}`;
+                                                    const formattedDate = `${sentAt.getDate()}-${addLeadingZero(sentAt.getMonth() + 1)}-${sentAt.getFullYear()}`;
+                                                    const formattedTime = `${addLeadingZero(sentAt.getHours())}:${addLeadingZero(sentAt.getMinutes())}`;
                                                     const formattedDateTime = `${formattedDate} ${formattedTime}`;
                                                 %>
 
@@ -289,8 +289,6 @@
 	<script src="/vendor/dropzone/dist/dropzone.js"></script>
     <script src="/js/custom.js"></script>
 	<script src="/js/deznav-init.js"></script>
-    
-    <!-- INTERNAL SCRIPTS -->
-	
+    	
 </body>
 </html>

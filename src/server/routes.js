@@ -1,9 +1,9 @@
 const express = require("express");
 const passport = require("passport");
-const { chatHandler, sendTextMailHandler, sendAttachmentsMailHandler, trackEmailHandler } = require("./handler");
+const { chatHandler, sendTextMailHandler, sendAttachmentsMailHandler } = require("./handler");
 const { ensureAuthenticated } = require("../middleware/middleware");
 const { userProfile } = require("./passportConfig");
-const { getAllSentEmails, getEmailById } = require('./handler');
+const { getAllSentEmails, getEmailById, getEmails } = require('./handler');
 
 const router = express.Router();
 
@@ -49,9 +49,8 @@ router.get("/mail", ensureAuthenticated, (req, res) => {
   res.render("email-compose");
 });
 
-router.get("/history", ensureAuthenticated, getAllSentEmails);
+router.get("/history", ensureAuthenticated, getEmails);
 router.get("/detail/:id", ensureAuthenticated, getEmailById);
-router.get("/track/:id", trackEmailHandler);
 
 router.post("/mail", chatHandler);
 router.post("/text-mail", sendTextMailHandler);
