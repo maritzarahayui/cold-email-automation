@@ -188,6 +188,7 @@
                             <h5 class="mt-4 mb-3">Send to</h5>
                             <div class="mb-3">
                                 <input type="text" class="form-control mb-3" id="emailTo" placeholder=" e.g. algonetwork1@gmail.com, algonetwork2@gmail.com, ..." style="height:45px;">
+                                <p class="my-2">upload csv file containing list of emails</p>
                                 <input type="file" class="form-control" id="emailFile" accept=".csv"/>
                             </div>
 
@@ -221,6 +222,11 @@
                 this.style.height = 'auto';
                 this.style.height = (this.scrollHeight) + 'px';
             });
+            const now = new Date();
+            const offset = now.getTimezoneOffset();
+            const localDateTime = new Date(now.getTime() - (offset * 60 * 1000));
+            const formattedDateTime = localDateTime.toISOString().slice(0, 16);
+            document.getElementById('scheduleTime').value = formattedDateTime;
         });
 
         $(document).ready(function() {

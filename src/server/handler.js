@@ -13,7 +13,7 @@ let userProfile;
 const chatHandler = async (req, res) => {
   try {
     const { prompt, language } = req.body;
-    const promptText = `Buatkan sebuah template email untuk customer tentang ${prompt} dengan bahasa ${language}. Berikan juga caption di akhir yang menampilkan salam penutup dari Algo Network`;
+    const promptText = `Buatkan sebuah template email untuk customer tentang ${prompt} dengan bahasa ${language}.`;
 
     const apiResponse = await fetch(
       "https://api.openai.com/v1/chat/completions",
@@ -121,7 +121,7 @@ const sendTextMailHandler = async (req, res) => {
         to: recipient,
         subject: subject,
         text: text,
-        html: finalHtml,
+        html: html,
       };
 
       const scheduleDate = moment(scheduleTime);
@@ -148,7 +148,8 @@ const sendTextMailHandler = async (req, res) => {
         }
       };
 
-      await storeData('all-emails', emailData);
+      const emailDocRef = await storeData('all-emails', emailData);
+      const emailId = emailDocRef.id;
       
       if (delayMilliseconds > 0) {
         setTimeout(() => {
@@ -157,23 +158,8 @@ const sendTextMailHandler = async (req, res) => {
               console.error('Error sending email:', err);
             } else {
               console.log('Email sent:', info.response);
-              await updateData('all-emails', emailData);
+              await updateData('all-emails', emailId);
 
-              // const user = req.user;
-              // const createdAt = new Date().toISOString();
-              // const emailData = {
-              //   to: recipient,
-              //   subject: subject,
-              //   text: text,
-              //   html: html,
-              //   user: {
-              //     id: user.id,
-              //     email: user.emails[0].value,
-              //     name: user.displayName,
-              //   },
-              //   createdAt: createdAt
-              // };
-              // await storeData('sent-emails', emailData);
             }
           });
         }, delayMilliseconds);
@@ -183,23 +169,8 @@ const sendTextMailHandler = async (req, res) => {
             console.error('Error sending email:', err);
           } else {
             console.log('Email sent:', info.response);
-            await updateData('all-emails', emailData);
+            await updateData('all-emails', emailId);
 
-            // const user = req.user;
-            // const createdAt = new Date().toISOString();
-            // const emailData = {
-            //   to: recipient,
-            //   subject: subject,
-            //   text: text,
-            //   html: html,
-            //   user: {
-            //     id: user.id,
-            //     email: user.emails[0].value,
-            //     name: user.displayName,
-            //   },
-            //   createdAt: createdAt
-            // };
-            // await storeData('sent-emails', emailData);
           }
         });
       }

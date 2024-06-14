@@ -12,10 +12,17 @@ async function storeData(collectionName, data) {
 }
 
 async function updateData(collectionName, id) {
-    const result = await db.collection(collectionName).doc(String(id)).update({
+    try {
+      console.log(`Updating document with ID ${id}`);
+      const result = await db.collection(collectionName).doc(id).update({
         status: 'sent',
-    });
-    return result;
+      });
+      console.log(`Document with ID ${id} successfully updated`);
+      return result;
+    } catch (error) {
+      console.error(`Failed to update document with ID ${id}:`, error);
+      throw error;
+    }
 }
 
 module.exports = { storeData, updateData, db };
