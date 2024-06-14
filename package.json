@@ -35,6 +35,7 @@
     "openai": "^4.47.1",
     "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
+    "path": "^0.12.7",
     "pg": "^8.11.5",
     "uuid": "^9.0.1"
   },

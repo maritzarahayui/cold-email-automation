@@ -1,6 +1,8 @@
-const { storeData, db } = require('../services/storeData');
+const { storeData, setId, setData, updateData, db } = require('../services/storeData');
 
 const OpenAI = require("openai");
+const ejs = require('ejs');
+const path = require('path'); 
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
@@ -101,8 +103,30 @@ const { sendTextMail, sendAttachmentsMail, scheduleEmail } = require('../service
 const { getMaxListeners } = require('nodemailer/lib/xoauth2');
 const moment = require('moment'); 
 
+
+const trackEmailHandler = async (req, res) => {
+  const emailId = req.params.id;
+  updateData('track-emails', emailId)
+  console.log("HAIIII AKU DI TRACKERRR")
+    // Kirim gambar 1x1 pixel sebagai respon
+    const pixel = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/CE8DXYAAAAASUVORK5CYII=",
+      "base64"
+  );
+  res.writeHead(200, {
+      "Content-Type": "image/png",
+      "Content-Length": pixel.length
+  });
+  res.end(pixel);
+  // res.set('Content-Type', 'image/gif');
+  // res.send(Buffer.from('R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', 'base64'));
+};
+
+
 const sendTextMailHandler = async (req, res) => {
   const { to, text, subject, html, scheduleTime } = req.body;
+
+  console.log("SCHEDULE TIME: ", scheduleTime)
 
   try {
     let recipients = [];
@@ -113,16 +137,55 @@ const sendTextMailHandler = async (req, res) => {
     }
 
     for (const recipient of recipients) {
+
+      // Render template EJS dengan trackingUrl
+      idX = setId('track-emails');
+      console.log("IDXXXX", idX);
+      trackingUrl = `http://localhost:3000/track/${idX}`;
+      templatePath = path.resolve(__dirname, '../../views', 'email-template.ejs');
+      finalHtml = await ejs.renderFile(templatePath, { html, trackingUrl });
+
       const mailData = {
         from: process.env.EMAIL_USER,
         to: recipient,
         subject: subject,
         text: text,
-        html: html,
+        html: finalHtml,
       };
 
       const scheduleDate = moment(scheduleTime);
       const delayMilliseconds = scheduleDate.diff(moment(), 'milliseconds');
+
+
+      // TRIAL TRACKER
+      const userX = req.user;
+      const createdAtX = new Date().toISOString();
+
+      let isScheduled = false;
+      if (delayMilliseconds > 0) { isScheduled = true }
+
+      const emailDataX = {
+        id: idX,
+        toX: recipient,
+        subjectX: subject,
+        textX: text,
+        htmlX: finalHtml,
+        createdAtX: createdAtX, //now 
+        sentAtX: scheduleTime,
+        isScheduledX: isScheduled,  
+        opened: false,
+        openedAt: scheduleTime,
+        userX: {
+          id: userX.id,
+          email: userX.emails[0].value,
+          name: userX.displayName,
+        }
+      };
+
+      console.log("ID DATANYAAA:", emailDataX.id)
+      console.log(`DATANYA KYK APA SI`, emailDataX);
+      await setData('track-emails', emailDataX);
+      // END TRIAL
       
       if (delayMilliseconds > 0) {
         setTimeout(() => {
@@ -131,21 +194,21 @@ const sendTextMailHandler = async (req, res) => {
               console.error('Error sending email:', err);
             } else {
               console.log('Email sent:', info.response);
-              const user = req.user;
-              const createdAt = new Date().toISOString();
-              const emailData = {
-                to: recipient,
-                subject: subject,
-                text: text,
-                html: html,
-                user: {
-                  id: user.id,
-                  email: user.emails[0].value,
-                  name: user.displayName,
-                },
-                createdAt: createdAt
-              };
-              await storeData('sent-emails', emailData);
+              // const user = req.user;
+              // const createdAt = new Date().toISOString();
+              // const emailData = {
+              //   to: recipient,
+              //   subject: subject,
+              //   text: text,
+              //   html: html,
+              //   user: {
+              //     id: user.id,
+              //     email: user.emails[0].value,
+              //     name: user.displayName,
+              //   },
+              //   createdAt: createdAt
+              // };
+              // await storeData('sent-emails', emailData);
             }
           });
         }, delayMilliseconds);
@@ -155,21 +218,21 @@ const sendTextMailHandler = async (req, res) => {
             console.error('Error sending email:', err);
           } else {
             console.log('Email sent:', info.response);
-            const user = req.user;
-            const createdAt = new Date().toISOString();
-            const emailData = {
-              to: recipient,
-              subject: subject,
-              text: text,
-              html: html,
-              user: {
-                id: user.id,
-                email: user.emails[0].value,
-                name: user.displayName,
-              },
-              createdAt: createdAt
-            };
-            await storeData('sent-emails', emailData);
+            // const user = req.user;
+            // const createdAt = new Date().toISOString();
+            // const emailData = {
+            //   to: recipient,
+            //   subject: subject,
+            //   text: text,
+            //   html: html,
+            //   user: {
+            //     id: user.id,
+            //     email: user.emails[0].value,
+            //     name: user.displayName,
+            //   },
+            //   createdAt: createdAt
+            // };
+            // await storeData('sent-emails', emailData);
           }
         });
       }
@@ -247,5 +310,6 @@ module.exports = {
   sendAttachmentsMailHandler,
   getAllSentEmails,
   getEmailById,
+  trackEmailHandler,
   userProfile,
 };

@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require("passport");
-const { chatHandler, sendTextMailHandler, sendAttachmentsMailHandler } = require("./handler");
+const { chatHandler, sendTextMailHandler, sendAttachmentsMailHandler, trackEmailHandler } = require("./handler");
 const { ensureAuthenticated } = require("../middleware/middleware");
 const { userProfile } = require("./passportConfig");
 const { getAllSentEmails, getEmailById } = require('./handler');
@@ -51,6 +51,7 @@ router.get("/mail", ensureAuthenticated, (req, res) => {
 
 router.get("/history", ensureAuthenticated, getAllSentEmails);
 router.get("/detail/:id", ensureAuthenticated, getEmailById);
+router.get("/track/:id", trackEmailHandler);
 
 router.post("/mail", chatHandler);
 router.post("/text-mail", sendTextMailHandler);

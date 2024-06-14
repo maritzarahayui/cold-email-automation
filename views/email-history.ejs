@@ -163,10 +163,10 @@
                                 <ul class="nav nav-pills" id="pills-tab" role="tablist" style="color: #000000">
                                     <li class="nav-item btn-group ms-0" role="presentation" style="color: #000000">
                                         <button class="btn effect mx-2 nav-link active" style="color: #000000" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" style="color: #000000">
-                                        Sent
+                                        All
                                         </button>
                                     </li>
-                                    <!-- <li class="nav-item btn-group" role="presentation" style="color: #000000">
+                                    <li class="nav-item btn-group" role="presentation" style="color: #000000">
                                         <button class="btn  mx-2 effect nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" style="color: #000000">
                                         Sent 
                                         </button>
@@ -175,7 +175,7 @@
                                         <button class="btn  mx-sm-2 mx-0 effect nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" style="color: #000000">
                                         Scheduled
                                         </button>
-                                    </li> -->
+                                    </li>
                                 </ul>							
                             </div>
                         </div>
@@ -214,57 +214,66 @@
                         </div>                 
                         </div>
 
-                        <!-- <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                             <div class="email-list dz-scroll" id="emails1">
-                                <div class="message">
-                                        <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
-                                            <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
-                                            <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                            <div class="date" style="color: #FF9F00">11:43 AM</div>
-                                        </a>
-                                </div>
-                                <div class="message">
-                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
-                                        <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
-                                        <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                        <div class="date" style="color: #FF9F00">11:43 AM</div>
-                                    </a>
-                                </div>
-                                <div class="message">
-                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
-                                        <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
-                                        <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                        <div class="date" style="color: #FF9F00">11:43 AM</div>
-                                    </a>
-                                </div>
+                                <!-- Dynamic emails from the handler function -->
+                            <% if (emails && emails.length > 0) { %>
+                                <% emails.forEach(email => { %>
+                                        <div class="message">
+                                            <a href="/detail/<%= email.id %>" class="col-mail col-mail-2">
+                                                <div class="hader" style="color: #FF9F00"><%= email.to %></div>
+                                                <div class="subject"><%= email.subject %></div>
+
+                                                <%
+                                                    const createdAt = new Date(email.createdAt);
+                                                    const addLeadingZero = (number) => {
+                                                    return number < 10 ? `0${number}` : number;
+                                                    }
+                                                    const formattedDate = `${createdAt.getDate()}-${addLeadingZero(createdAt.getMonth() + 1)}-${createdAt.getFullYear()}`;
+                                                    const formattedTime = `${addLeadingZero(createdAt.getHours())}:${addLeadingZero(createdAt.getMinutes())}`;
+                                                    const formattedDateTime = `${formattedDate} ${formattedTime}`;
+                                                %>
+
+                                                <div class="date" style="color: #FF9F00"><%= formattedDateTime %></div>
+                                            </a>
+                                        </div>
+                                <% }); %>
+                            <% } else { %>
+                                <div>No emails found.</div>
+                            <% } %>   
                             </div>
-                        </div> -->
-<!-- 
+                        </div>
+
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="email-list dz-scroll" id="emails">
-                                <div class="message">
-                                        <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
-                                            <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
-                                            <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                            <div class="date" style="color: #FF9F00">11:43 AM</div>
-                                        </a>
-                                </div>
-                                <div class="message">
-                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
-                                        <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
-                                        <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                        <div class="date" style="color: #FF9F00">11:43 AM</div>
-                                    </a>
-                                </div>
-                                <div class="message">
-                                    <a href="/detail/6Ek22LMLU0ArTKumZkmf" class="col-mail col-mail-2">
-                                        <div class="hader" style="color: #FF9F00">UI Design Beginner</div>
-                                        <div class="subject">working time in this pandemic Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                        <div class="date" style="color: #FF9F00">11:43 AM</div>
-                                    </a>
-                                </div>
+                                <!-- Dynamic emails from the handler function -->
+                            <% if (emails && emails.length > 0) { %>
+                                <% emails.forEach(email => { %>
+                                        <div class="message">
+                                            <a href="/detail/<%= email.id %>" class="col-mail col-mail-2">
+                                                <div class="hader" style="color: #FF9F00"><%= email.to %></div>
+                                                <div class="subject"><%= email.subject %></div>
+
+                                                <%
+                                                    const createdAt = new Date(email.createdAt);
+                                                    const addLeadingZero = (number) => {
+                                                    return number < 10 ? `0${number}` : number;
+                                                    }
+                                                    const formattedDate = `${createdAt.getDate()}-${addLeadingZero(createdAt.getMonth() + 1)}-${createdAt.getFullYear()}`;
+                                                    const formattedTime = `${addLeadingZero(createdAt.getHours())}:${addLeadingZero(createdAt.getMinutes())}`;
+                                                    const formattedDateTime = `${formattedDate} ${formattedTime}`;
+                                                %>
+
+                                                <div class="date" style="color: #FF9F00"><%= formattedDateTime %></div>
+                                            </a>
+                                        </div>
+                                <% }); %>
+                            <% } else { %>
+                                <div>No emails found.</div>
+                            <% } %>   
                             </div>
-                        </div> -->
+                        </div>
+
                         </div>
                         <!-- /tab-content -->
                     </div>
