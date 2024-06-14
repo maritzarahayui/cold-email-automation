@@ -1,55 +1,126 @@
 <!doctype html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="W3crm:Customer Relationship Management Admin Bootstrap 5 Template">
+    <meta property="og:title" content="W3crm:Customer Relationship Management Admin Bootstrap 5 Template">
+    <meta property="og:description" content="W3crm:Customer Relationship Management Admin Bootstrap 5 Template">
+    <meta property="og:image" content="https://w3crm.dexignzone.com/xhtml/social-image.png">
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- PAGE TITLE HERE -->
     <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <!-- FAVICONS ICON -->    
+    <link href="/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="/vendor/dropzone/dist/dropzone.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body {
-            padding-top: 0;
-            background-image: url('https://akuntansi.uma.ac.id/wp-content/uploads/2024/01/ai.webp');
-            color: white;
-            font-family: Raleway, sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        h1 {
-            padding-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .btn-custom {
-            background-color: #FF6431;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-        }
-
-        .btn-custom:hover {
-            background-color: #172554;
-            color: white;
-        }
-
-        .jumbotron {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            width: 40%;
-            text-align: center;
-            padding: 40px 10px;
-        }
-    </style>
+    
+    <!-- Style css -->
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        color: white;
+    }
+
+    .left-section, .right-section {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left-section {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 40px;
+        padding-right: 40px;
+        color: black;
+        position: relative;
+        overflow: hidden; /* Menambahkan overflow hidden untuk memotong bagian luar dekorasi */
+    }
+
+    .right-section {
+        background-image: url('https://martech.org/wp-content/uploads/2023/11/3-ways-email-marketers-actually-should-use-AI.png');
+        background-size: cover;
+        background-position: center right;
+    }
+
+    .logo {
+        width: 100px;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        padding-bottom: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    p {
+        padding-bottom: 20px;
+        text-align: left;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .btn .fa-google {
+        margin-right: 10px;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 90%;
+        margin-left: 5%;
+        padding: 10px 0;
+        text-align: center;
+        border-top: 2px solid #ccc;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-sizing: border-box;
+    }
+
+    .footer-content {
+        display: inline-block;
+    }
+</style>
+
 <body>
-<div class="jumbotron">
-    <h1>Welcome!</h1>
-    <a href="/auth/google" class="btn btn-custom"><span class="fa fa-google"></span> Login with Google</a>
-</div>
+    <div class="left-section">
+        <img src="https://storage.googleapis.com/kampusmerdeka_kemdikbud_go_id/mitra/mitra_e7e4d54b-6688-45e9-96a6-1a2e04be63a0.png" alt="Logo" class="logo">
+        
+        <h1>Welcome to <br>Cold Email Automation!</h1>
+        <p>Streamline your email campaigns and improve your outreach efficiency with our tools.</p>
+
+        <a href="/auth/google" class="btn btn-danger w-100">
+            <span class="fa fa-google"></span> Login with Google
+        </a>
+
+        <div class="footer">
+            <div class="footer-content">
+                <p>Developed by C241-CE01</p>
+            </div>
+        </div>
+    </div>
+    <div class="right-section">
+        <!-- Background image is set through CSS -->
+    </div>
 </body>
 </html>
